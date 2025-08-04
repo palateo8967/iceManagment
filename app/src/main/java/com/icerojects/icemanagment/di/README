@@ -1,0 +1,5 @@
+# di
+
+Contiene todos los módulos de inyección de dependencias (por ejemplo, Hilt).
+
+Aquí se definen los `@Module` y `@Provides` necesarios para inyectar dependencias en las capas data, domain y presentation.

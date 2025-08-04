@@ -1,0 +1,8 @@
+# domain
+
+Contiene la lógica de negocio de la aplicación.
+
+Incluye:
+- Modelos de dominio (Entities).
+- Interfaces de repositorios.
+- Casos de uso (Use Cases).

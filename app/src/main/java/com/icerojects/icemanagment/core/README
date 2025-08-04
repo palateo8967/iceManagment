@@ -1,0 +1,17 @@
+# core
+
+Contiene elementos reutilizables que pueden utilizarse en cualquier capa del proyecto.
+
+Subcarpetas:
+
+- **components**
+  Componentes visuales reutilizables, como botones personalizados, diálogos, loaders, etc.
+
+- **constants**
+  Constantes globales de la aplicación (por ejemplo, claves, configuraciones).
+
+- **errors**
+  Clases para el manejo centralizado de errores y excepciones.
+
+- **extensions**
+  Extensiones de Kotlin que simplifican operaciones sobre tipos estándar.

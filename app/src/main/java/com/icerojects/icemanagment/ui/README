@@ -1,0 +1,8 @@
+# presentation
+
+Contiene la capa de presentación (UI) de la aplicación.
+
+Estructura interna:
+- `navigation`: Manejo de navegación con Jetpack Compose.
+- `theme`: Definición de temas, colores y tipografías.
+- `features`: Pantallas agrupadas por funcionalidad (por ejemplo, Ventas, Inventario, Pedidos).

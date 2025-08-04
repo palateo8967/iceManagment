@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment
+package com.icerojects.icemanagment.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

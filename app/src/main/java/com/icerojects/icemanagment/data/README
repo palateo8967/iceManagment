@@ -1,0 +1,18 @@
+# data
+
+Contiene la implementación de acceso a datos de la aplicación, tanto local como remoto.
+
+Subcarpetas:
+
+- **local**
+  Código relacionado con almacenamiento local (Room, MySQL):
+  - `dao`: Interfaces DAO para acceso a bases de datos.
+  - `entities`: Entidades de base de datos que representan tablas locales.
+
+- **remote**
+  Código relacionado con el acceso a datos remotos (Firebase, APIs REST):
+  - `api`: Definición de interfaces de red y servicios remotos.
+  - `dto`: Modelos de datos remotos (Data Transfer Objects).
+
+- **repository**
+  Implementaciones concretas de los repositorios definidos en la capa `domain`.
