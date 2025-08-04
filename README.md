@@ -67,10 +67,11 @@ com.icerojects.icemanagment
 Si tienes preguntas o quieres colaborar:
 
 - ✉️ **Emails de contacto:**
-    - Darian Altamirano: *(coloca aquí tu correo)*
+    - Darian Altamirano: *(darianaltamirano0@gmail.com)*
     - Mateo Palacios: *(palateo8967@gmail.com)*
 
 - 🐙 GitHub: [palateo8967](https://github.com/palateo8967)
+- 🐙 GitHub: [Darian55](https://github.com/Darian55)
 
 ---
 
