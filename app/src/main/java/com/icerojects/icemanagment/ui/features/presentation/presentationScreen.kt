@@ -8,8 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.icerojects.icemanagment.core.components.Customtext
 import com.icerojects.icemanagment.ui.navigation.AppNavigation
 
 @Composable
@@ -20,35 +23,17 @@ fun PresentationScreen(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Bienvenido a IceManagement")
-        Button(onClick = { navController.navigate("login") }) {
-            Text("Comenzar")
-        }
+        Customtext(
+            text = "Bienvenido a",
+            fontSize = 17.sp,
+            color = Color.White
+        )
+
+        Customtext(
+            text = "Ice Mangment",
+            fontSize = 20.sp,
+            color = Color.Blue
+        )
     }
 
 }
-
-@Composable
-fun PresentationScree(){
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Bienvenido a IceManagement")
-        Button(onClick = {}) {
-            Text("Comenzar")
-        }
-    }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Preview(){
-
-    PresentationScree()
-
-}
-
