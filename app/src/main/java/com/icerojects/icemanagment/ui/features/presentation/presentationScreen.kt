@@ -32,7 +32,7 @@ fun PresentationScreen(navController: NavController){
         //Imagen de fondo
         Image(
             painter = painterResource(id = R.drawable.fondo1),
-            contentDescription = null,
+            contentDescription = "Fondo de pantalla",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )

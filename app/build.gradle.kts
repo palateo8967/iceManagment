@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    //Hilt
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -58,7 +61,18 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
     //Importar dependecnia de navegacion
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
+    //Dependencia de HILT
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    // Para integración con Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+}
+
+kapt {
+    correctErrorTypes = true
 }
