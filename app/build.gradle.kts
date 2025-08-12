@@ -7,6 +7,8 @@ plugins {
     //Hilt
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    //Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -54,6 +56,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,6 +74,9 @@ dependencies {
     // Para integración con Compose
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }
 
 kapt {

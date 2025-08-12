@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.icerojects.icemanagment" />
+                  <option name="mobileSdkAppId" value="1:207829767527:android:6011d240568e3e14574bc2" />
+                  <option name="projectId" value="icemanagmente" />
+                  <option name="projectNumber" value="207829767527" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
