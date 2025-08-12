@@ -1,11 +1,14 @@
 package com.icerojects.icemanagment.ui.navigation
 
 import androidx.compose.runtime.Composable
-import com.icerojects.icemanagment.ui.features.presentation.PresentationScreen
 
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.icerojects.icemanagment.ui.features.presentation.IndexScreens.Inter
+import com.icerojects.icemanagment.ui.features.presentation.IndexScreens.Presentation
+import com.icerojects.icemanagment.ui.features.presentation.sesionScreen.Login
+import com.icerojects.icemanagment.ui.features.presentation.sesionScreen.NewAccount
 
 @Composable
 fun AppNavigation(){
@@ -19,7 +22,19 @@ fun AppNavigation(){
 
     ){
         composable("presentation"){
-            PresentationScreen(navController)
+            Presentation(navController)
+        }
+
+        composable("inter"){
+            Inter(navController)
+        }
+
+        composable("login"){
+            Login(navController)
+        }
+
+        composable("newAccount"){
+            NewAccount(navController)
         }
     }
 

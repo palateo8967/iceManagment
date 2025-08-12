@@ -1,6 +1,7 @@
-package com.icerojects.icemanagment.ui.features.presentation
+package com.icerojects.icemanagment.ui.features.presentation.IndexScreens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,22 +12,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.icerojects.icemanagment.R
 import com.icerojects.icemanagment.core.components.Customtext
-import com.icerojects.icemanagment.ui.navigation.AppNavigation
 
 //Pantalla de presentacion
 @Composable
-fun PresentationScreen(navController: NavController){
+fun Presentation(navController: NavController){
 
     Box(modifier = Modifier.fillMaxSize()){
         //Imagen de fondo
@@ -36,6 +40,14 @@ fun PresentationScreen(navController: NavController){
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
+
+        // Capa de oscurecimiento
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.4f))
+        )
+
 
     }
     //Seccion Principal
@@ -55,7 +67,7 @@ fun PresentationScreen(navController: NavController){
         )
         //Sub Titulo
         Customtext(
-            text = "Ice Mangment",
+            text = "Ice Managment",
             fontSize = 28.sp,
             color = Color(0xFFBFDBFE)
         )
@@ -67,7 +79,7 @@ fun PresentationScreen(navController: NavController){
             text = "La solución completa para administrar tu heladería de manera profesional y eficiente",
             fontSize = 15.sp,
             color = Color.White,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -99,12 +111,25 @@ fun PresentationScreen(navController: NavController){
 
         //Juan(boton) para continuar a la siguiente seccion
         Button(
-            onClick = {navController.navigate("")},
-            modifier = Modifier.fillMaxWidth(0.8f)
-        ){
+            onClick = { navController.navigate("inter") },
 
-            Text(text = "Continuar")
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .height(48.dp),
 
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = Color(0xFF2563EB)
+            ),
+
+            shape = MaterialTheme.shapes.medium
+
+        ) {
+            Text(
+                text = "Continuar",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
         }
         
         Spacer(modifier = Modifier.height(16.dp))
