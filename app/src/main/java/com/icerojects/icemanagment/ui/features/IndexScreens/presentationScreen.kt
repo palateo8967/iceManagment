@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.features.presentation.IndexScreens
+package com.icerojects.icemanagment.ui.features.IndexScreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

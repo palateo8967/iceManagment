@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.icerojects.icemanagment.ui.features.presentation.IndexScreens.Inter
-import com.icerojects.icemanagment.ui.features.presentation.IndexScreens.Presentation
-import com.icerojects.icemanagment.ui.features.presentation.sesionScreen.Login
-import com.icerojects.icemanagment.ui.features.presentation.sesionScreen.NewAccount
+import com.icerojects.icemanagment.ui.features.IndexScreens.Inter
+import com.icerojects.icemanagment.ui.features.IndexScreens.Presentation
+import com.icerojects.icemanagment.ui.features.sesionScreen.Login
+import com.icerojects.icemanagment.ui.features.sesionScreen.NewAccount
 
 @Composable
 fun AppNavigation(){
