@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.auth
+package com.icerojects.icemanagment.ui.screens.auth
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.annotation.meta.When
 import javax.inject.Inject
 
 sealed class AuthUiState {
@@ -61,6 +60,22 @@ class AuthViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun signIn(){
+
+        viewModelScope.launch {
+
+            _authUiState.value = AuthUiState.Loading
+            val result = authManager.signIn(email.value.trim(), password.value.trim())
+            _authUiState.value = when (result){
+
+                is AuthOperationResult.Succes -> AuthUiState.Success(result.user)
+                is AuthOperationResult.Error -> AuthUiState.Error(result.errorMessage)
+
+            }
+
+        }
+
+    }
 
     fun signUp() {
 
@@ -92,8 +107,10 @@ class AuthViewModel @Inject constructor(
 
     }
 
-    fun resetUiState(){
+    fun resetFormAndUiState(){
 
+        email.value = ""
+        password.value = ""
         _authUiState.value = AuthUiState.Idle
 
     }
