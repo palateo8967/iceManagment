@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.features.IndexScreens
+package com.icerojects.icemanagment.ui.screens.IndexScreens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
