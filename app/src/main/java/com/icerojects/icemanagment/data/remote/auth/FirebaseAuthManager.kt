@@ -21,6 +21,8 @@ import javax.inject.Singleton
 class FirebaseAuthManager @Inject constructor(
 
     private val firestoreManager: FirestoreManager
+
+
 ){
 
     private val auth: FirebaseAuth = Firebase.auth

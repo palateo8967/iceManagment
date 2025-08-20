@@ -13,15 +13,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AuthModule {
-
-    @Provides
-    @Singleton
-    fun provideFirebaseAuthManager(): FirebaseAuthManager {
-
-        return FirebaseAuthManager()
-
-    }
-
     @Provides
     @Singleton
     fun provideAuthRepository(
@@ -29,7 +20,7 @@ object AuthModule {
         firebaseAuthManager: FirebaseAuthManager,
         firestoreManager: FirestoreManager
 
-        ): AuthRepository {
+    ): AuthRepository {
 
         return AuthRepositoryImpl(firebaseAuthManager, firestoreManager)
 
