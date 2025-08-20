@@ -1,6 +1,7 @@
 package com.icerojects.icemanagment.di
 
 import com.icerojects.icemanagment.data.remote.auth.FirebaseAuthManager
+import com.icerojects.icemanagment.data.remote.firestore.FirestoreManager
 import com.icerojects.icemanagment.data.repository.AuthRepositoryImpl
 import com.icerojects.icemanagment.domain.repository.AuthRepository
 import dagger.Module
@@ -23,9 +24,14 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(firebaseAuthManager: FirebaseAuthManager): AuthRepository {
+    fun provideAuthRepository(
 
-        return AuthRepositoryImpl(firebaseAuthManager)
+        firebaseAuthManager: FirebaseAuthManager,
+        firestoreManager: FirestoreManager
+
+        ): AuthRepository {
+
+        return AuthRepositoryImpl(firebaseAuthManager, firestoreManager)
 
     }
 

@@ -3,6 +3,7 @@ package com.icerojects.icemanagment.data.repository
 import android.R.attr.password
 import com.google.firebase.auth.FirebaseUser
 import com.icerojects.icemanagment.data.remote.auth.FirebaseAuthManager
+import com.icerojects.icemanagment.data.remote.firestore.FirestoreManager
 import com.icerojects.icemanagment.domain.model.AuthOperationResult
 import com.icerojects.icemanagment.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,8 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
 
-    private val firebaseAuthManager: FirebaseAuthManager
+    private val firebaseAuthManager: FirebaseAuthManager,
+    private val firestoreManager: FirestoreManager
 
 ) : AuthRepository{
 

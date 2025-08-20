@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.input.key.Key.Companion.Home
 import androidx.hilt.navigation.compose.hiltViewModel
 
 import androidx.navigation.compose.NavHost
@@ -75,10 +74,11 @@ fun AppNavigation(
     NavHost(
 
         navController = navController,
-        startDestination = "startDestination"
+        startDestination = "presentation"
 
     ){
         composable(AppScreen.PRESENTATION){
+
             Presentation(navController)
         }
 
