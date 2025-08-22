@@ -1,18 +1,21 @@
-# data
+#data
 
-Contiene la implementación de acceso a datos de la aplicación, tanto local como remoto.
+📌 Propósito: Gestiona las fuentes de datos de la aplicación. Incluye la lógica para obtener, guardar y sincronizar datos tanto desde medios locales (p. ej. base de datos SQLite/Room) como remotos (servicios web, Firebase). También alberga las implementaciones concretas de los repositorios definidos en el dominio.
 
-Subcarpetas:
+📑 Contenido:
 
-- **local**
-  Código relacionado con almacenamiento local (Room, MySQL):
-  - `dao`: Interfaces DAO para acceso a bases de datos.
-  - `entities`: Entidades de base de datos que representan tablas locales.
+local/: Carpeta para la persistencia local. Aquí deberían ir las entidades de Room, DAOs y demás clases relacionadas con la base de datos o el almacenamiento en caché. Actualmente está vacía, pero se prevé usarla para futuros módulos (Room, SharedPreferences, etc.).
 
-- **remote**
-  Código relacionado con el acceso a datos remotos (Firebase, APIs REST):
-  - `api`: Definición de interfaces de red y servicios remotos.
-  - `dto`: Modelos de datos remotos (Data Transfer Objects).
+remote/: Carpeta para fuentes de datos remotas. Incluye subcarpetas:
 
-- **repository**
-  Implementaciones concretas de los repositorios definidos en la capa `domain`.
+auth/: Contiene FirebaseAuthManager.kt, que maneja la autenticación mediante Firebase Auth.
+
+firestore/: Contiene FirestoreManager.kt, encargado de las operaciones con Firestore (lectura/escritura de datos de usuario, pedidos, etc.).
+
+repository/: Contiene implementaciones de repositorios. Actualmente solo AuthRepositoryImpl.kt, que implementa la interfaz AuthRepository del dominio. Este repositorio combina los datos de FirebaseAuthManager y FirestoreManager para cumplir las operaciones de negocio.
+
+README.md: Documento que describe la capa de datos.
+
+🏗️ Rol en la arquitectura: Esta es la capa externa donde se implementan los detalles de acceso a datos. Los repositorios aquí traducen las llamadas del dominio a operaciones concretas de la fuente de datos (por ejemplo, llamar a Firebase). Actúa como puente entre el dominio y el mundo externo.
+
+Ejemplo de uso: AuthRepositoryImpl.signIn(email, password) llama internamente a FirebaseAuthManager.signInWithEmail(email, password) y luego a FirestoreManager.getUserData(), combinando ambas fuentes para retornar un AuthOperationResult.

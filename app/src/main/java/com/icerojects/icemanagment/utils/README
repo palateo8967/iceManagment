@@ -1,3 +1,30 @@
 # utils
 
 Contiene utilidades, extensiones y helpers que pueden ser usados en cualquier parte del proyecto.
+📑 Contenido:
+## 📂 Resource
+
+El archivo `Resource.kt` define una **clase sellada genérica** (`sealed class Resource<T>`) que representa el estado de una operación asíncrona o de acceso a datos.
+
+### 🧩 Estados definidos
+`Resource` puede tener tres estados principales:
+
+1. **Loading<T>**
+   - Representa que la operación aún está en proceso (ejemplo: consulta a la base de datos, petición HTTP o login en Firebase).
+   - Puede opcionalmente contener datos parciales (`data`).
+
+2. **Success<T>**
+   - Representa que la operación terminó correctamente y contiene los datos esperados.
+   - Ejemplo: un objeto `User`, una lista de productos, o un token de sesión.
+
+3. **Error<T>**
+   - Representa que la operación falló.
+   - Incluye un mensaje de error (`message`) y opcionalmente algún dato (`data`) en caso de estar disponible.
+
+### 🛠️ Propiedades
+- `data: T?` → Dato resultante de la operación (puede ser `null` si falló o aún no se obtuvo).
+- `message: String?` → Mensaje de error opcional (se utiliza principalmente en `Error`).
+
+Ejemplo de uso: Un repositorio puede retornar Resource.Success(user) si la llamada fue exitosa o Resource.Error(message) si ocurrió un fallo. El ViewModel asigna ese Resource a un LiveData que la UI observa para mostrar una pantalla de carga, resultado o error.
+
+🏗️ Rol en la arquitectura: Sirve de soporte transversal para la gestión de estados y datos en varias capas. Por ejemplo, los repositorios pueden retornar Resource<T> y los casos de uso remitir ese estado hacia la UI.

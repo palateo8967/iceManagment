@@ -12,9 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import com.icerojects.icemanagment.ui.screens.IndexScreens.Inter
 import com.icerojects.icemanagment.ui.screens.IndexScreens.Presentation
 import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
-import com.icerojects.icemanagment.ui.screens.homeScreen.Home
-import com.icerojects.icemanagment.ui.screens.sesionScreen.Login
-import com.icerojects.icemanagment.ui.screens.sesionScreen.NewAccount
+import com.icerojects.icemanagment.ui.screens.homeScreens.Home
+import com.icerojects.icemanagment.ui.screens.sesionScreens.Login
+import com.icerojects.icemanagment.ui.screens.sesionScreens.NewAccount
 
 object AppScreen{
 

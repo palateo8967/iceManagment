@@ -1,0 +1,14 @@
+#ui/screens/IndexScreens
+
+📌 Propósito: Reagrupa  pantallas de introducción o índice de la aplicación.
+
+📑 Archivos:
+
+interScreen.kt: Un primer pantallazo ("interfaz de bienvenida").
+
+presentationScreen.kt: Otra pantalla introductoria,para saber si el ususario quiere inciar sesion o crearse una cuenta.
+
+🔗 Relación con otras capas: Estas pantallas suelen ser pasivas o conectarse a navegación. Pueden usar casos de uso mínimos (por ejemplo, verificar si el usuario ya está autenticado y saltar al home). Se enlazan desde AppNavigation.
+
+Ejemplo de uso: AppNavigation podría tener composable("inter") { PresentationScreen() }, y al final de esa pantalla se navega a loginScreen o homeScreen según sea apropiado.
+

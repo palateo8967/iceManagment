@@ -1,17 +1,19 @@
-# core
+#core
 
-Contiene elementos reutilizables que pueden utilizarse en cualquier capa del proyecto.
+📌 Propósito: Contiene componentes reutilizables y de bajo nivel que pueden usarse en cualquier capa de la aplicación. En esta carpeta se definen utilerías genéricas (constantes globales, manejadores de errores, clases base o funciones de extensión) que no dependen de detalles específicos de negocio ni de fuentes de datos concretas.
 
-Subcarpetas:
+📑 Contenido:
 
-- **components**
-  Componentes visuales reutilizables, como botones personalizados, diálogos, loaders, etc.
+    °components/: Paquete para clases base o componentes genéricos. Puede incluir, por ejemplo, un BaseViewModel, clases auxiliares para validaciones comunes, etc.
 
-- **constants**
-  Constantes globales de la aplicación (por ejemplo, claves, configuraciones).
+    °constants/: Archivos con constantes globales de la aplicación (URLs, claves estáticas, etc.).
 
-- **errors**
-  Clases para el manejo centralizado de errores y excepciones.
+    °errors/: Definición de clases de error o excepción genéricas. Por ejemplo, un NetworkError o manejo de códigos HTTP comunes.
 
-- **extensions**
-  Extensiones de Kotlin que simplifican operaciones sobre tipos estándar.
+    °extensions/: Funciones de extensión de Kotlin que agregan utilidad a clases estándar (por ejemplo, extensiones de String o de tareas de Firebase para manejar resultados).
+
+README.md: Documento explicativo de la carpeta (su propósito general y ejemplos).
+
+🏗️ Rol en la arquitectura: Forma la base de la aplicación. Estas utilidades trascienden las demás capas, por lo que pueden ser referenciadas desde data, domain o ui sin violar la separación. Facilita la consistencia de código y evita duplicación.
+
+Ejemplo de uso: En components/ podría definirse un BaseResult<T> o una interfaz común. Por ejemplo, se puede usar una función de extensión definida en extensions/ para simplificar la conversión de un objeto Firestore a una entidad de dominio.

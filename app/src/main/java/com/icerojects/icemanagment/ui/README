@@ -1,8 +1,39 @@
-# presentation
+#ui
 
-Contiene la capa de presentación (UI) de la aplicación.
+📌 Propósito: Agrupa todos los elementos de la interfaz de usuario. Contiene pantallas, composición visual (Jetpack Compose), navegación y temas. Esta capa depende de la capa de dominio (a través de los casos de uso) y muestra datos al usuario o recoge sus interacciones.
 
-Estructura interna:
-- `navigation`: Manejo de navegación con Jetpack Compose.
-- `theme`: Definición de temas, colores y tipografías.
-- `features`: Pantallas agrupadas por funcionalidad (por ejemplo, Ventas, Inventario, Pedidos).
+📑 Contenido:
+
+navigation/: Carpeta para la configuración de rutas de navegación.
+
+AppNavigation.kt: Define el NavHost y los destinos de navegación entre pantallas.
+
+screens/: Contiene subcarpetas según flujos funcionales (actualmente: auth, homeScreen, IndexScreens, sessionScreen).
+
+auth/:
+
+AuthViewModel.kt: ViewModel asociado a la lógica de autenticación. Inyecta casos de uso (SignInUseCase, etc.) y expone estados para la UI.
+
+homeScreen/:
+
+homeScreen.kt: Composable de la pantalla principal (después de ingresar exitosamente).
+
+IndexScreens/:
+
+interScreen.kt y presentationScreen.kt: Composables que representan pantallas de introducción
+
+sessionScreen/:
+
+loginScreen.kt: Composable para la pantalla de inicio de sesión.
+
+newAccountScreen.kt: Composable para crear una nueva cuenta (registro).
+
+theme/: Carpeta con definiciones de tema Jetpack Compose (colores, tipografía, estilos). Contiene archivos como Theme.kt donde se establece el IceManagementTheme.
+
+MainActivity.kt: Actividad principal de la aplicación. Aquí se configura el tema de la app y se inicializa la navegación (setContent { IceManagementTheme { AppNavigation() } }).
+
+README.md: Descripción de la carpeta UI.
+
+🏗️ Rol en la arquitectura: Esta es la capa de presentación. Consume los casos de uso a través de los ViewModels. Debe mantener lógica mínima y delegar las operaciones de negocio a los UseCases. La navegación y el tema también se manejan aquí.
+
+Ejemplo de uso: Al abrir la app, MainActivity carga AppNavigation, que dirige a loginScreen. Este composable interactúa con AuthViewModel, que internamente llama a SignInUseCase. Según el resultado, la navegación puede cambiar a homeScreen.

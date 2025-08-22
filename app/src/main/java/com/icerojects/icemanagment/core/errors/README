@@ -1,0 +1,9 @@
+core/errors
+
+📌 Propósito: Define errores o excepciones genéricos usados por la aplicación. Por ejemplo, mapeos de errores de red o de Firebase a errores más abstractos.
+
+📑 Archivos: Puede contener clases como NetworkException.kt, FirebaseAuthException.kt o un ErrorHandler.kt que traduce códigos de error.
+
+🔗 Relación con otras capas: Utilizado principalmente en la capa de datos para capturar errores de fuentes externas y en la capa de dominio para manejar errores de negocio. Por ejemplo, AuthRepositoryImpl puede lanzar o retornar objetos de error definidos aquí.
+
+Ejemplo de uso: Un método en FirebaseAuthManager puede convertir un FirebaseAuthException en una subclase de error definida aquí, que luego envía a la UI para mostrar mensajes.

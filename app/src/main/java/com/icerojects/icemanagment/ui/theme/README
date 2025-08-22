@@ -1,0 +1,19 @@
+#ui/theme
+
+📌 Propósito: Contiene la configuración de tema de la interfaz (colores, tipografía, estilos generales). Asegura una apariencia consistente en toda la aplicación.
+
+📑 Archivos: Archivos como Theme.kt, Color.kt, Typography.kt que definen, tipografias, colores, etc especificos para toda la app.
+
+🔗 Relación con otras capas: No interactúa con dominio ni datos. Es consumida por la capa UI para envolver las pantallas. Por ejemplo, MainActivity llama a IceManagementTheme { ... }.
+
+Ejemplo de uso: En Theme.kt se definirá:
+
+@Composable
+fun IceManagementTheme(content: @Composable () -> Unit) {
+    MaterialTheme(colors = AppColors, typography = AppTypography) {
+        content()
+    }
+}
+Luego MainActivity aplica este tema al contenido de la aplicación.
+
+(De momento no se utilizo nada de este archivo, debido a que no se esta priorozando el diseño, pero mas adelante se refactorizara todo)

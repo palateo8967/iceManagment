@@ -1,0 +1,13 @@
+#core/components
+
+📌 Propósito: Aloja clases base o componentes reutilizables específicos.
+   Por ejemplo, view models base, adaptadores comunes o herramientas compartidas entre varias pantallas.
+
+📑 Archivos: Puede incluir archivos como BaseViewModel.kt, LoadingView.kt u otros componentes genéricos.
+   (Actualmente puede estar vacío; se debe poblar según necesidades).
+
+🔗 Relación con otras capas: Actúa como soporte para UI, dominio o datos al brindar estructuras comunes.
+   Por ejemplo, un BaseViewModel serviría como clase padre para los ViewModels en UI.
+
+Ejemplo de uso: Un BaseViewModel definiría comportamiento común
+                (por ejemplo, manejo de errores en un MutableLiveData), que luego usan AuthViewModel u otros.

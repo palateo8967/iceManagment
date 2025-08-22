@@ -1,0 +1,9 @@
+core/extensions
+
+📌 Propósito: Contiene funciones de extensión de Kotlin para clases existentes, aportando funcionalidades auxiliares.
+
+📑 Archivos: Por ejemplo, extensiones de String, Context, o de las propias clases de Firebase/Firestore para facilitar operaciones comunes.
+
+🔗 Relación con otras capas: Las extensiones definidas aquí se pueden invocar desde cualquier capa. Por ejemplo, una extensión de Task<TResult> de Firebase para convertirla en Task.await() coroutines.
+
+Ejemplo de uso: Una extensión de Context.toast(message: String) para mostrar toasts simplificados en la UI, usada dentro de actividades o fragments.

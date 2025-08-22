@@ -1,0 +1,11 @@
+#domain/model
+
+📌 Propósito: Contiene las clases de modelo de dominio que representan estados o entidades de negocio esenciales.
+
+📑 Archivos:
+
+AuthOperationResult.kt: Clase sellada que agrupa los posibles resultados de una operación de autenticación. Por ejemplo, puede tener subclases Success(user: User), Error(error: String), etc. (Se usa para comunicar de forma estructurada los resultados desde la capa de datos a los casos de uso y la UI).
+
+🔗 Relación con otras capas: Estos modelos son utilizados por la capa de datos al retornar resultados y por los casos de uso al procesarlos. También son consumidos por la UI para mostrar estados al usuario. No dependen de detalles externos, solo representan datos de negocio.
+
+Ejemplo de uso: Cuando AuthRepositoryImpl finaliza un login, retorna AuthOperationResult.Success(user). El caso de uso SignInUseCase recibe ese resultado y lo envía al AuthViewModel para actualizar la UI.

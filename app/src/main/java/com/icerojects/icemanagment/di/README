@@ -2,4 +2,35 @@
 
 Contiene todos los módulos de inyección de dependencias (por ejemplo, Hilt).
 
-Aquí se definen los `@Module` y `@Provides` necesarios para inyectar dependencias en las capas data, domain y presentation.
+Aquí se definen los `@Module` y `@Provides` necesarios para inyectar dependencias en las capas data, domain y ui.
+
+________________________________________________________________________________________________________________
+.
+
+🏗️ Rol en la arquitectura: di actúa como ensamblador del sistema. Cumple el principio de inversión de dependencias al vincular interfaces (del dominio) con implementaciones (del data). Mantiene la capa de presentación desacoplada de los detalles de creación de objetos.
+
+Ejemplo de uso: En AuthModule se anotan proveedores como @Provides fun provideAuthRepository(...): AuthRepository = AuthRepositoryImpl(...). Luego, Hilt inyecta ese AuthRepository en los casos de uso o ViewModels según se requiera.
+
+📑 Contenido:
+
+AuthModule.kt: Módulo de Hilt que proporciona dependencias relacionadas con la autenticación, como instancias de AuthRepositoryImpl, los casos de uso de autenticación (SignInUseCase, etc.) y quizá FirebaseAuthManager. Se puede ampliar más tarde con nuevos módulos (e.g. NetworkModule, DatabaseModule).
+
+Módulos (@Module)
+Son clases especiales donde se definen las reglas de cómo crear y proveer dependencias.
+
+Siempre van acompañadas de @InstallIn(...) para definir el alcance (lifetime).
+
+Dentro de cada módulo se usan funciones con @Provides para explicar cómo construir una clase, Basicamente
+dice cuando alguien necesite un AuthRepository, entregale un AuthRepositoryImpl
+
+Scopes (alcances de vida)
+Con Hilt podés controlar cuánto vive una instancia:
+
+@Singleton → Una sola instancia para toda la app.
+
+@ActivityScoped → Vive mientras viva una Activity.
+
+@ViewModelScoped → Vive mientras viva un ViewModel.
+
+
+

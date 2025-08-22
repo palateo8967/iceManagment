@@ -1,0 +1,11 @@
+domain/repository
+
+📌 Propósito: Define los contratos (interfaces) de los repositorios, es decir, las operaciones que la capa de datos debe implementar. Esto abstrae la fuente de datos y permite que los casos de uso trabajen con estas interfaces sin conocer implementaciones concretas.
+
+📑 Archivos:
+
+AuthRepository.kt: Interfaz que declara métodos como signIn(), signOut(), getAuthState(), etc. No contiene lógica de cómo se realizan esas operaciones.
+
+🔗 Relación con otras capas: Implementada por AuthRepositoryImpl en la capa de datos. Inyectada en los casos de uso y ViewModels. Por ejemplo, SignInUseCase depende de AuthRepository para realizar la autenticación.
+
+Ejemplo de uso: class AuthRepositoryImpl(private val authManager: FirebaseAuthManager): AuthRepository { override suspend fun signIn(...) { ... } }. El caso de uso usa esta interfaz sin saber que detrás está Firebase.

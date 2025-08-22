@@ -1,0 +1,21 @@
+#domain/use_case
+
+📌 Propósito: Contiene la lógica de los casos de uso de negocio. Cada clase en esta capa representa una acción de la aplicación (por ejemplo, iniciar sesión, obtener usuario actual) y coordina las operaciones necesarias en los repositorios para completar esa acción. Actúa como mediador entre la capa de datos y la de presentación.
+
+📑 Contenido:
+
+GetAuthStateUseCase.kt: Caso de uso que probablemente monitorea el estado de autenticación (usuario activo/inactivo).
+
+GetCurrentUserUseCase.kt: Recupera información del usuario actualmente autenticado.
+
+SignInUseCase.kt: Maneja el proceso de inicio de sesión (invoca repositorio, procesa resultado).
+
+SignOutUseCase.kt: Gestiona el cierre de sesión.
+
+SignUpUseCase.kt: Maneja el registro de nuevos usuarios.
+
+README.md: Descripción general de los casos de uso existentes.
+
+🏗️ Rol en la arquitectura: Esta capa implementa las reglas de negocio de alto nivel. Los casos de uso reciben parámetros (como credenciales) desde la UI o ViewModel, llaman a los métodos correspondientes del repositorio (dominio) y devuelven los resultados al ViewModel. Con esto se asegura que la UI no llame directamente a la capa de datos.
+
+Ejemplo de uso: En AuthViewModel, al pulsar un botón de inicio de sesión se llama a signInUseCase(email, password). Internamente, SignInUseCase usa AuthRepository para autenticar y retorna un AuthOperationResult, que el ViewModel observa y pasa a la pantalla.

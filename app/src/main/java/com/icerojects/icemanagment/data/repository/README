@@ -1,0 +1,11 @@
+data/repository
+
+📌 Propósito: Implementa las interfaces de repositorio definidas en la capa de dominio. Cada clase aquí traduce las llamadas de negocio en operaciones concretas con las fuentes de datos locales/remotas.
+
+📑 Archivos:
+
+AuthRepositoryImpl.kt: Implementación del repositorio de autenticación. Usa FirebaseAuthManager y FirestoreManager para realizar operaciones como signIn, signOut, getCurrentUser, etc. Devuelve los resultados en forma de AuthOperationResult (modelo de dominio).
+
+🔗 Relación con otras capas: Esta carpeta es el corazón del puente entre data y domain. AuthRepositoryImpl implementa AuthRepository (interfaz en dominio) y es proveído por Hilt a la capa de dominio/uso. Los casos de uso (use_case) dependen de estas implementaciones a través de la interfaz.
+
+Ejemplo de uso: Cuando SignInUseCase se ejecuta, internamente llama a authRepository.signIn(email, password). Esa llamada recae en AuthRepositoryImpl.signIn, que a su vez invoca a los managers de Firebase.

@@ -1,0 +1,11 @@
+ui/screens/auth
+
+📌 Propósito: Contiene el ViewModel (lógica de presentación) para el flujo de autenticación. Aunque no se observan composables visuales aquí, el AuthViewModel maneja la interacción con los casos de uso y expone estados de autenticación.
+
+📑 Archivos:
+
+AuthViewModel.kt: Clase ViewModel que agrupa los casos de uso de autenticación (se inyectan SignInUseCase, SignUpUseCase, etc.) y mantiene estados observables (LiveData o StateFlow) como el resultado del login o mensajes de error.
+
+🔗 Relación con otras capas: Se conecta con los casos de uso (domain/use_case). Recibe eventos desde la UI (por ejemplo, al presionar iniciar sesión) y llama a las funciones de los UseCases correspondientes. Luego, envía datos actualizados al UI (pantallas de login/registro). No interactúa directamente con AuthRepositoryImpl.
+
+Ejemplo de uso: Cuando el usuario ingresa sus credenciales en loginScreen, esa pantalla llama a authViewModel.signIn(email, password). El ViewModel ejecuta SignInUseCase y actualiza una propiedad como loginResult, que la UI observa para navegar o mostrar mensajes.

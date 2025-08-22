@@ -1,0 +1,13 @@
+data/remote
+
+📌 Propósito: Contiene la lógica de comunicación con fuentes de datos externas (servicios web, Firebase, etc.). Se encarga de hacer peticiones, procesar respuestas y convertir datos remotos en modelos que el repositorio pueda usar.
+
+📑 Archivos:
+
+auth/FirebaseAuthManager.kt: Clase que maneja la autenticación con Firebase Auth (registros, inicios de sesión, cierre de sesión, verificación de usuarios).
+
+firestore/FirestoreManager.kt: Clase que interactúa con Cloud Firestore (por ejemplo, lectura/escritura de documentos relacionados con usuarios, pedidos, ventas).
+
+🔗 Relación con otras capas: Las clases aquí son usadas por los repositorios (AuthRepositoryImpl) de la capa de datos para obtener y enviar información remota. No deberían ser vistas directamente por el dominio o la UI.
+
+Ejemplo de uso: En AuthRepositoryImpl, al realizar signUp, se llama a FirebaseAuthManager.createUser(email, password). Luego de esto, FirestoreManager.saveNewUserData(userId, userInfo) almacena datos adicionales en Firestore.

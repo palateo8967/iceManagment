@@ -1,0 +1,11 @@
+data/local
+
+📌 Propósito: Aloja la lógica de almacenamiento local de datos (base de datos, caché). Se utiliza para guardar información en el dispositivo (por ejemplo, credenciales, configuraciones o datos sincronizados).
+
+📑 Archivos: Actualmente está vacío. En el futuro podría contener:
+
+Subcarpetas como entities/ (clases de entidades de Room) y dao/ (interfaces de acceso a datos).
+
+Ejemplo: UserEntity.kt, OrderDao.kt.
+
+🔗 Relación con otras capas: Será utilizado por las implementaciones de repositorios en data/repository. Por ejemplo, AuthRepositoryImpl podría usar un DAO para almacenar localmente el usuario autenticado. También interactúa con la capa de dominio cuando persiste o recupera entidades de negocio.

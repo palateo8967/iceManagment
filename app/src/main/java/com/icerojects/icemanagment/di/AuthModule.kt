@@ -9,8 +9,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
+//Aca se declara como se crean y se inyectan las dependencias
 @Module
+//Alcance de vida
 @InstallIn(SingletonComponent::class)
 object AuthModule {
     @Provides

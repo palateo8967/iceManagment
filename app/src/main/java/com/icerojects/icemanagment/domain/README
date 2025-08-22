@@ -1,8 +1,17 @@
-# domain
+#domain
 
-Contiene la lógica de negocio de la aplicación.
+📌 Propósito: Define el núcleo del negocio. Contiene las entidades de negocio, modelos de dominio y las interfaces (contratos) que describen las operaciones disponibles. No contiene detalles de implementación de fuentes de datos ni de frameworks específicos.
 
-Incluye:
-- Modelos de dominio (Entities).
-- Interfaces de repositorios.
-- Casos de uso (Use Cases).
+📑 Contenido:
+
+model/: Clases y objetos que representan conceptos de dominio. Actualmente solo AuthOperationResult.kt, un sealed class que modela los posibles resultados de operaciones de autenticación (éxito, error, estado de carga, etc.).
+
+repository/: Interfaces de repositorio. AuthRepository.kt define los métodos de negocio relacionados con autenticación (por ejemplo, signIn, signOut, getCurrentUser).
+
+use_case/: Contiene la lógica de los casos de uso de negocio. Cada clase en esta capa representa una acción de la aplicación (por ejemplo, iniciar sesión, obtener usuario actual) y coordina las operaciones necesarias en los repositorios para completar esa acción. Actúa como mediador entre la capa de datos y la de presentación.
+
+README.md: Introducción a la capa de dominio, su propósito y estructura.
+
+🏗️ Rol en la arquitectura: Es la capa central (círculo interno) de Clean Architecture. Aquí es donde se describe qué hace la aplicación sin preocuparse de cómo se hace. Esta capa no debe depender de data ni de frameworks externos; solo puede usar core para utilidades genéricas.
+
+Ejemplo de uso: AuthRepository declara funciones como suspend fun signIn(email: String, password: String): AuthOperationResult. AuthRepositoryImpl en la capa de datos implementa esta interfaz y devuelve un AuthOperationResult para el dominio. Un caso de uso como SignInUseCase invoca repository.signIn() y devuelve el modelo de dominio correspondiente.espondiente.

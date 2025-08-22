@@ -1,0 +1,10 @@
+#core/constants
+
+📌 Propósito: Agrupa constantes globales (típicamente const val) que pueden necesitarse en múltiples partes del código.
+
+📑 Archivos: Por ejemplo, AppConfig.kt (con URLs base), AuthConstants.kt (claves de intent, mensajes estáticos), etc.
+
+🔗 Relación con otras capas: Referenciadas desde cualquier capa.
+                              Por ejemplo, un AUTH_ERROR_CODE en errors podría usarse en repositorios o controladores de UI.
+
+Ejemplo de uso: En AuthModule (DI) se podría usar una constante DEFAULT_TIMEOUT definida aquí para configurar Retrofit.
