@@ -32,7 +32,6 @@ fun Login(
     navController: NavHostController,
     authViewModel: AuthViewModel = hiltViewModel(),
 
-
     ) {
 
     val uiState by authViewModel.authUiState
@@ -59,57 +58,77 @@ fun Login(
     }
 
     Column(
+
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
+
         Text("Iniciar Sesión", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedTextField(
+
             value = authViewModel.email.value,
             onValueChange = { authViewModel.email.value = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
-            isError = uiState is AuthUiState.Error // Podrías querer marcar error en campos específicos
+            isError = uiState is AuthUiState.Error
+
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         OutlinedTextField(
+
             value = authViewModel.password.value,
             onValueChange = { authViewModel.password.value = it },
             label = { Text("Contraseña") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
             isError = uiState is AuthUiState.Error
+
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         if (uiState is AuthUiState.Loading) {
+
             CircularProgressIndicator()
+
         } else {
+
             Button(
+
                 onClick = { authViewModel.signIn() },
                 modifier = Modifier.fillMaxWidth()
+
             ) {
                 Text("Entrar")
             }
         }
 
         if (uiState is AuthUiState.Error) {
+
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = (uiState as AuthUiState.Error).message,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall
             )
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
         TextButton(onClick = {
+
             authViewModel.resetFormAndUiState() // Limpia estado antes de ir a registro
             navController.navigate("newAccount")
+
         }) {
             Text("¿No tienes cuenta? Regístrate aquí")
         }

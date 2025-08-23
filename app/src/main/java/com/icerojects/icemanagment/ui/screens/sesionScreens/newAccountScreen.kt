@@ -27,9 +27,12 @@ import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
 
 @Composable
 fun NewAccount(
+
     navController: NavHostController,
     authViewModel: AuthViewModel = hiltViewModel(),
+
 ) {
+
     val uiState by authViewModel.authUiState
 
     LaunchedEffect(uiState) {
@@ -42,66 +45,83 @@ fun NewAccount(
     }
 
     Column(
+
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
+
         Text("Crear Nueva Cuenta", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedTextField(
+
             value = authViewModel.email.value,
             onValueChange = { authViewModel.email.value = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth(),
             isError = uiState is AuthUiState.Error
+
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         OutlinedTextField(
+
             value = authViewModel.password.value,
             onValueChange = { authViewModel.password.value = it },
             label = { Text("Contraseña") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
             isError = uiState is AuthUiState.Error
+
         )
-        // Podrías añadir un campo de "Confirmar Contraseña" aquí y la lógica en el ViewModel
-        // OutlinedTextField(
-        //     value = authViewModel.confirmPassword.value,
-        //     onValueChange = { authViewModel.confirmPassword.value = it },
-        //     label = { Text("Confirmar Contraseña") },
-        //     visualTransformation = PasswordVisualTransformation(),
-        //     modifier = Modifier.fillMaxWidth()
-        // )
+
+        // añadir un campo de "Confirmar Contraseña" aquí y la lógica en el ViewModel mas adelante, cuandos se entregue la beta
+
         Spacer(modifier = Modifier.height(16.dp))
 
         if (uiState is AuthUiState.Loading) {
+
             CircularProgressIndicator()
+
         } else {
+
             Button(
+
                 onClick = { authViewModel.signUp() },
                 modifier = Modifier.fillMaxWidth()
+
             ) {
                 Text("Registrarse")
             }
+
         }
 
         if (uiState is AuthUiState.Error) {
+
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = (uiState as AuthUiState.Error).message,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall
             )
+
         }
+
         Spacer(modifier = Modifier.height(16.dp))
+
         TextButton(onClick = {
-            authViewModel.resetFormAndUiState() // Limpia estado antes de ir a login
+
+            authViewModel.resetFormAndUiState()
             navController.navigate("login") {
-                popUpTo("newAccount") { inclusive = true } // Evita acumular newAccount en backstack
+                popUpTo("newAccount") { inclusive = true }
+
             }
+
         }) {
             Text("¿Ya tienes cuenta? Inicia Sesión")
         }
