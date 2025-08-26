@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.icerojects.icemanagment.R
-import com.icerojects.icemanagment.core.components.Customtext
+import com.icerojects.icemanagment.ui.components.Customtext
 
 @Composable
 fun Inter(navController: NavController){

@@ -1,20 +1,21 @@
 package com.icerojects.icemanagment.ui.screens.homeScreens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.icerojects.icemanagment.ui.components.MenuButton
 import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
 
 @Composable
@@ -24,12 +25,12 @@ fun Home(
     authViewModel: AuthViewModel = hiltViewModel()
 
 ) {
+
     Column(
 
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
@@ -43,13 +44,73 @@ fun Home(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Button(onClick = {
+        // GRID de botones
+        Column(
 
-            authViewModel.signOut()
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
 
-        }) {
-            Text("Cerrar sesión")
+        ) {
+
+            Row(
+
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+
+            ) {
+
+                MenuButton(
+
+                    text = "Nuevo Pedido",
+                    icon = Icons.Default.ShoppingCart,
+                    backgroundColor = Color(0xFF4CAF50)
+
+                ) {
+                    // TODO: Navegar a pedidos
+                }
+
+                MenuButton(
+
+                    text = "Stock",
+                    icon = Icons.Default.Info,
+                    backgroundColor = Color(0xFF3F51B5)
+
+                ) {
+                    // TODO: Navegar a stock
+                }
+            }
+
+            Row(
+
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+
+            ) {
+
+                MenuButton(
+
+                    text = "Finanzas",
+                    icon = Icons.Default.Add,
+                    backgroundColor = Color(0xFFFF9800)
+
+                ) {
+                    // TODO: Navegar a finanzas
+                }
+
+                MenuButton(
+
+                    text = "Cerrar Sesión",
+                    icon = Icons.Default.ExitToApp,
+                    backgroundColor = Color(0xFFF44336)
+
+                ) {
+                    authViewModel.signOut()
+                }
+
+            }
+
         }
 
     }
+
 }
