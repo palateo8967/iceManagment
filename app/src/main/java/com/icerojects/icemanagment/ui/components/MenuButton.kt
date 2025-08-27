@@ -16,34 +16,51 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MenuButton(
+
     text: String,
     icon: ImageVector,
-    backgroundColor: Color,
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
     onClick: () -> Unit
+
 ) {
+
     Box(
+
         modifier = Modifier
             .size(150.dp)
             .background(backgroundColor, shape = MaterialTheme.shapes.medium)
             .clickable { onClick() }
             .padding(16.dp),
         contentAlignment = Alignment.Center
+
     ) {
+
         Column(
+
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
+
         ) {
+
             Icon(
+
                 imageVector = icon,
                 contentDescription = text,
-                tint = Color.White,
+                tint = contentColor,
                 modifier = Modifier.size(48.dp)
+
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
+
                 text = text,
-                color = Color.White,
-                fontSize = 16.sp
+                color = contentColor,
+                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyMedium
+
             )
         }
     }

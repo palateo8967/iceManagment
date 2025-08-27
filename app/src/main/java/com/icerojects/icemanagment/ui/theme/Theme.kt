@@ -12,15 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PrimaryBlue,
+    secondary = SecondaryBlue,
+    background = White,
+    surface = White,
+    onPrimary = White,
+    onSecondary = White,
+    onBackground = TextPrimary,
+    onSurface = TextPrimary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = PrimaryBlue,
+    secondary = White,
+    tertiary = White
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -52,7 +57,8 @@ fun IceManagmentTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MaterialTheme.typography,
+        shapes = MaterialTheme.shapes,
         content = content
     )
 }

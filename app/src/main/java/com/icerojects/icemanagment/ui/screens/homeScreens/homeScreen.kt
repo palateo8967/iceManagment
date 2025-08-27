@@ -11,12 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.icerojects.icemanagment.ui.components.MenuButton
 import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
+import com.icerojects.icemanagment.ui.theme.BlueStock
+import com.icerojects.icemanagment.ui.theme.GreenPedido
+import com.icerojects.icemanagment.ui.theme.OrangeFinanzas
+import com.icerojects.icemanagment.ui.theme.RedCerrarSesion
 
 @Composable
 fun Home(
@@ -38,7 +41,8 @@ fun Home(
         Text(
 
             text = "Próximamente",
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.onBackground
 
         )
 
@@ -63,7 +67,7 @@ fun Home(
 
                     text = "Nuevo Pedido",
                     icon = Icons.Default.ShoppingCart,
-                    backgroundColor = Color(0xFF4CAF50)
+                    backgroundColor = GreenPedido
 
                 ) {
                     // TODO: Navegar a pedidos
@@ -73,7 +77,7 @@ fun Home(
 
                     text = "Stock",
                     icon = Icons.Default.Info,
-                    backgroundColor = Color(0xFF3F51B5)
+                    backgroundColor = BlueStock
 
                 ) {
                     // TODO: Navegar a stock
@@ -91,7 +95,7 @@ fun Home(
 
                     text = "Finanzas",
                     icon = Icons.Default.Add,
-                    backgroundColor = Color(0xFFFF9800)
+                    backgroundColor = OrangeFinanzas
 
                 ) {
                     // TODO: Navegar a finanzas
@@ -101,16 +105,13 @@ fun Home(
 
                     text = "Cerrar Sesión",
                     icon = Icons.Default.ExitToApp,
-                    backgroundColor = Color(0xFFF44336)
+                    backgroundColor = RedCerrarSesion
 
                 ) {
                     authViewModel.signOut()
                 }
 
             }
-
         }
-
     }
-
 }

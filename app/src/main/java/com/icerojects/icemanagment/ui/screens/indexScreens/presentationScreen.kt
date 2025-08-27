@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.IndexScreens
+package com.icerojects.icemanagment.ui.screens.indexScreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.icerojects.icemanagment.R
-import com.icerojects.icemanagment.ui.components.Customtext
 
 //Pantalla de presentacion
 @Composable
@@ -60,16 +59,16 @@ fun Presentation(navController: NavController){
     ) {
 
         //Titulo
-        Customtext(
+        Text(
             text = "Bienvenido a",
             fontSize = 20.sp,
-            color = Color.White
+            color = MaterialTheme.colorScheme.onBackground
         )
         //Sub Titulo
-        Customtext(
+        Text(
             text = "Ice Managment",
             fontSize = 28.sp,
-            color = Color(0xFFBFDBFE)
+            color = MaterialTheme.colorScheme.secondary
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -78,7 +77,7 @@ fun Presentation(navController: NavController){
         Text(
             text = "La solución completa para administrar tu heladería de manera profesional y eficiente",
             fontSize = 15.sp,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
 
@@ -86,61 +85,68 @@ fun Presentation(navController: NavController){
 
         //Parte de Beneficios
         Column(
-            horizontalAlignment  = Alignment.Start
-        ){
 
+            horizontalAlignment  = Alignment.Start
+
+        ){
             Text(
+
                 text = "• Control de inventario en tiempo real",
                 fontSize = 15.sp,
-                color = Color.White
-            )
-            Text(
-                text = "• Gestión de ventas y reportes",
-                fontSize = 15.sp,
-                color = Color.White
-            )
-            Text(
-                text = "• Administración desde cualquier lugar",
-                fontSize = 15.sp,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onBackground
+
             )
 
+            Text(
+
+                text = "• Gestión de ventas y reportes",
+                fontSize = 15.sp,
+                color = MaterialTheme.colorScheme.onBackground
+
+            )
+
+            Text(
+
+                text = "• Administración desde cualquier lugar",
+                fontSize = 15.sp,
+                color = MaterialTheme.colorScheme.onBackground
+
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        //Juan(boton) para continuar a la siguiente seccion
         Button(
-            onClick = { navController.navigate("inter") },
 
+            onClick = { navController.navigate("inter") },
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(48.dp),
-
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = Color(0xFF2563EB)
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.primary
             ),
-
             shape = MaterialTheme.shapes.medium
 
         ) {
             Text(
+
                 text = "Continuar",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
+
             )
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        //Parte de cosas legales :v
         Text(
+
             text = "Al continuar, aceptas nuestros términos de servicio y política de privacidad",
             fontSize = 9.sp,
-            color = Color.White
+            color = MaterialTheme.colorScheme.onBackground
+
         )
-        
     }
 
 }

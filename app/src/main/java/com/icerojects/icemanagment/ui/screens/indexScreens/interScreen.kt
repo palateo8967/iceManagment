@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.IndexScreens
+package com.icerojects.icemanagment.ui.screens.indexScreens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,101 +26,119 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.icerojects.icemanagment.R
-import com.icerojects.icemanagment.ui.components.Customtext
+import com.icerojects.icemanagment.ui.theme.BlackOverlay
 
 @Composable
-fun Inter(navController: NavController){
+fun Inter(navController: NavController) {
 
-   Box(modifier = Modifier.fillMaxWidth()){
-       //Parte de la imagen de fondo
-       Image(
-           painter = painterResource(id = R.drawable.fondo1),
-           contentDescription = "Fondo de pantalla",
-           contentScale = ContentScale.Crop,
-           modifier = Modifier.fillMaxSize()
-       )
+    Box(modifier = Modifier.fillMaxWidth()) {
 
-       Box(
-           modifier = Modifier
-               .fillMaxSize()
-               .background(Color.Black.copy(alpha = 0.4f))
-       )
+        // Imagen de fondo
+        Image(
 
-   }
-    //Parte de arriba
+            painter = painterResource(id = R.drawable.fondo1),
+            contentDescription = "Fondo de pantalla",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+
+        )
+
+        // Capa oscura (usamos BlackOverlay desde theme)
+        Box(
+
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BlackOverlay)
+
+        )
+    }
+
+    // Contenido
     Column(
+
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ){
 
-        //Titulo
-        Customtext(
+    ) {
+
+        // Título
+        Text(
+
             text = "Ice Managment",
             fontSize = 28.sp,
-            color = Color(0xFFBFDBFE)
+            color = MaterialTheme.colorScheme.secondary
+
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        //Parte de abajo
+        // Subtítulo
         Text(
-            text = "Elige una opcion para comenzar",
+
+            text = "Elige una opción para comenzar",
             fontSize = 15.sp,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
+
         )
 
         Spacer(modifier = Modifier.height(70.dp))
 
+        // Botón de Iniciar sesión
         Button(
-            onClick = { navController.navigate("login") },
 
+            onClick = { navController.navigate("login") },
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(48.dp),
 
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = Color(0xFF2563EB)
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.primary
             ),
 
             shape = MaterialTheme.shapes.medium
 
         ) {
+
             Text(
-                text = "Iniciar Sesion",
+                text = "Iniciar Sesión",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
             )
+
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        // Botón de Crear cuenta
         Button(
-            onClick = { navController.navigate("newAccount") },
 
+            onClick = { navController.navigate("newAccount") },
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(48.dp),
 
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0f),
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ),
 
-            border = BorderStroke(1.dp, Color.White),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary),
+
             shape = MaterialTheme.shapes.medium
 
         ) {
+
             Text(
                 text = "Crear nueva cuenta",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
             )
-        }
 
+        }
     }
 }

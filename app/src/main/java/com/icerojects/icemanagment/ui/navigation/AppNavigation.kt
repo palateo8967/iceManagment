@@ -5,24 +5,22 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.icerojects.icemanagment.ui.screens.IndexScreens.Inter
-import com.icerojects.icemanagment.ui.screens.IndexScreens.Presentation
+import com.icerojects.icemanagment.ui.screens.indexScreens.Inter
+import com.icerojects.icemanagment.ui.screens.indexScreens.Presentation
 import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
 import com.icerojects.icemanagment.ui.screens.homeScreens.Home
 import com.icerojects.icemanagment.ui.screens.sesionScreens.Login
 import com.icerojects.icemanagment.ui.screens.sesionScreens.NewAccount
 
-object AppScreen{
-
-    const val PRESENTATION = "presentation"
-   const val INTER = "inter"
-    const val LOGIN = "login"
-    const val NEW_ACCOUNT = "newAccount"
-    const val HOMESCREEN = "homeScreen"
+sealed class AppScreen(val route: String) {
+    object Presentation : AppScreen("presentation")
+    object Inter : AppScreen("inter")
+    object Login : AppScreen("login")
+    object NewAccount : AppScreen("newAccount")
+    object Home : AppScreen("homeScreen")
 }
 
 @Composable
@@ -30,73 +28,64 @@ fun AppNavigation(
 
     authViewModel: AuthViewModel = hiltViewModel()
 
-){
+) {
 
-    val navController =  rememberNavController()
+    val navController = rememberNavController()
     val currentUser by authViewModel.authState.collectAsState()
-    val startDestination = if (currentUser != null) AppScreen.HOMESCREEN else AppScreen.PRESENTATION
+
+    val startDestination = if (currentUser != null) AppScreen.Home.route else AppScreen.Presentation.route
 
     LaunchedEffect(currentUser) {
 
-        if(currentUser != null){
+        if (currentUser != null) {
 
-            if (navController.currentBackStackEntry?.destination?.route != AppScreen.HOMESCREEN){
+            navController.navigate(AppScreen.Home.route) {
 
-                navController.navigate(AppScreen.HOMESCREEN){
-
-                    popUpTo(navController.graph.startDestinationId) { inclusive = true }
-                    launchSingleTop = true
-
-                }
+                popUpTo(0) { inclusive = true }
+                launchSingleTop = true
 
             }
 
         } else {
 
-            val currentRoute = navController.currentBackStackEntry?.destination?.route
-            if(currentRoute == AppScreen.HOMESCREEN){
+            if (navController.currentBackStackEntry?.destination?.route == AppScreen.Home.route) {
 
-                navController.navigate(AppScreen.LOGIN){
-
-                    popUpTo(AppScreen.HOMESCREEN) { inclusive = true }
+                navController.navigate(AppScreen.Login.route) {
+                    popUpTo(0) { inclusive = true }
                     launchSingleTop = true
-
                 }
-
                 authViewModel.resetFormAndUiState()
 
             }
-
         }
-
     }
 
     NavHost(
 
         navController = navController,
-        startDestination = "presentation"
+        startDestination = startDestination
 
-    ){
-        composable(AppScreen.PRESENTATION){
+    ) {
 
+        composable(AppScreen.Presentation.route) {
             Presentation(navController)
         }
 
-        composable(AppScreen.INTER){
+        composable(AppScreen.Inter.route) {
             Inter(navController)
         }
 
-        composable(AppScreen.LOGIN){
+        composable(AppScreen.Login.route) {
             Login(navController)
         }
 
-        composable(AppScreen.NEW_ACCOUNT){
+        composable(AppScreen.NewAccount.route) {
             NewAccount(navController)
         }
 
-        composable(AppScreen.HOMESCREEN){
+        composable(AppScreen.Home.route) {
             Home(navController)
         }
-    }
 
+    }
 }
