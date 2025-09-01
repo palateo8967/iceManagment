@@ -16,11 +16,13 @@ import com.icerojects.icemanagment.ui.screens.sesionScreens.Login
 import com.icerojects.icemanagment.ui.screens.sesionScreens.NewAccount
 
 sealed class AppScreen(val route: String) {
+
     object Presentation : AppScreen("presentation")
     object Inter : AppScreen("inter")
     object Login : AppScreen("login")
     object NewAccount : AppScreen("newAccount")
     object Home : AppScreen("homeScreen")
+
 }
 
 @Composable
