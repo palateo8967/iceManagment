@@ -60,7 +60,16 @@ dependencies {
     //Dan problemas
     //implementation(libs.firebase.firestore.ktx)
     //implementation(libs.firebase.auth.ktx)
+
+    // Dependencias de Testing
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:5.10.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    testImplementation("com.google.dagger:hilt-android-testing:2.57.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    kaptTest("com.google.dagger:hilt-android-compiler:2.57.2")
+    
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -72,10 +81,10 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     //Dependencia de HILT
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    implementation("com.google.dagger:hilt-android:2.57.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.57.2")
     // Para integración con Compose
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
@@ -84,6 +93,3 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
 }
 
-kapt {
-    correctErrorTypes = true
-}

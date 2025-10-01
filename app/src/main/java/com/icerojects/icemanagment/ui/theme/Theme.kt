@@ -9,40 +9,53 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = PrimaryBlue,
     secondary = SecondaryBlue,
-    background = White,
-    surface = White,
+    tertiary = SecondaryBlue,
+    background = BackgroundDark,
+    surface = SurfaceDark,
+    error = ErrorColorDark,
     onPrimary = White,
-    onSecondary = White,
-    onBackground = TextPrimary,
-    onSurface = TextPrimary
+    onSecondary = BackgroundDark,
+    onTertiary = BackgroundDark,
+    onBackground = White,
+    onSurface = White,
+    onError = White
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = PrimaryBlue,
-    secondary = White,
-    tertiary = White
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary = SecondaryBlue,
+    tertiary = SecondaryBlue,
+    background = BackgroundLight,
+    surface = SurfaceLight,
+    error = ErrorColor,
+    onPrimary = White,
+    onSecondary = BackgroundDark,
+    onTertiary = BackgroundDark,
+    onBackground = BackgroundDark,
+    onSurface = BackgroundDark,
+    onError = White
 )
 
+/**
+ * Tema principal de la aplicación Ice Management
+ * @param darkTheme Indica si se debe usar el tema oscuro
+ * @param dynamicColor Indica si se deben usar colores dinámicos (Android 12+)
+ * @param content Contenido de la aplicación
+ */
 @Composable
 fun IceManagmentTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Desactivado por defecto para mantener la identidad visual
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -50,15 +63,24 @@ fun IceManagmentTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
+    }
+    
+    // Configurar la barra de estado para que coincida con el tema
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = colorScheme.primary.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+        }
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = MaterialTheme.typography,
-        shapes = MaterialTheme.shapes,
+        typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }

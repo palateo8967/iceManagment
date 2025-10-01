@@ -8,8 +8,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.icerojects.icemanagment.ui.screens.indexScreens.Inter
-import com.icerojects.icemanagment.ui.screens.indexScreens.Presentation
 import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
 import com.icerojects.icemanagment.ui.screens.homeScreens.Home
 import com.icerojects.icemanagment.ui.screens.sesionScreens.Login
@@ -17,8 +15,6 @@ import com.icerojects.icemanagment.ui.screens.sesionScreens.NewAccount
 
 sealed class AppScreen(val route: String) {
 
-    object Presentation : AppScreen("presentation")
-    object Inter : AppScreen("inter")
     object Login : AppScreen("login")
     object NewAccount : AppScreen("newAccount")
     object Home : AppScreen("homeScreen")
@@ -35,7 +31,7 @@ fun AppNavigation(
     val navController = rememberNavController()
     val currentUser by authViewModel.authState.collectAsState()
 
-    val startDestination = if (currentUser != null) AppScreen.Home.route else AppScreen.Presentation.route
+    val startDestination = if (currentUser != null) AppScreen.Home.route else AppScreen.Login.route
 
     LaunchedEffect(currentUser) {
 
@@ -68,14 +64,6 @@ fun AppNavigation(
         startDestination = startDestination
 
     ) {
-
-        composable(AppScreen.Presentation.route) {
-            Presentation(navController)
-        }
-
-        composable(AppScreen.Inter.route) {
-            Inter(navController)
-        }
 
         composable(AppScreen.Login.route) {
             Login(navController)

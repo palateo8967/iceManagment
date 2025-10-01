@@ -19,7 +19,7 @@ class SignOutUseCase @Inject constructor(
         try{
 
             repository.signOut()
-            emit(Resource.Loading())
+            emit(Resource.Succes())
 
         } catch (e: Exception){
 
