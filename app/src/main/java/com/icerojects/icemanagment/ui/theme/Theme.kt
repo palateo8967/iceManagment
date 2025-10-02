@@ -72,7 +72,9 @@ fun IceManagmentTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            // Usando WindowCompat para configurar el color de la barra de estado en lugar de statusBarColor
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            window.navigationBarColor = android.graphics.Color.TRANSPARENT
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }

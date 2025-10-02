@@ -3,7 +3,7 @@ package com.icerojects.icemanagment.ui.screens.homeScreens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.icerojects.icemanagment.ui.components.AppLogo
 import com.icerojects.icemanagment.ui.components.MenuButton
@@ -88,18 +88,20 @@ fun Home(
                 MenuButton(
                     text = "Nuevo Pedido",
                     icon = Icons.Default.ShoppingCart,
-                    backgroundColor = GreenPedido
-                ) {
-                    // TODO: Navegar a pedidos
-                }
+                    backgroundColor = GreenPedido,
+                    onClick = {
+                        // TODO: Navegar a pedidos
+                    }
+                )
 
                 MenuButton(
                     text = "Stock",
                     icon = Icons.Default.Info,
-                    backgroundColor = BlueStock
-                ) {
-                    // TODO: Navegar a stock
-                }
+                    backgroundColor = BlueStock,
+                    onClick = {
+                        // TODO: Navegar a stock
+                    }
+                )
             }
 
             Row(
@@ -109,18 +111,20 @@ fun Home(
                 MenuButton(
                     text = "Finanzas",
                     icon = Icons.Default.Add,
-                    backgroundColor = OrangeFinanzas
-                ) {
-                    // TODO: Navegar a finanzas
-                }
+                    backgroundColor = OrangeFinanzas,
+                    onClick = {
+                        // TODO: Navegar a finanzas
+                    }
+                )
 
                 MenuButton(
                     text = "Cerrar Sesión",
-                    icon = Icons.Default.ExitToApp,
-                    backgroundColor = RedCerrarSesion
-                ) {
-                    authViewModel.signOut()
-                }
+                    icon = Icons.AutoMirrored.Filled.ExitToApp,
+                    backgroundColor = RedCerrarSesion,
+                    onClick = {
+                        authViewModel.signOut()
+                    }
+                )
             }
         }
     }
