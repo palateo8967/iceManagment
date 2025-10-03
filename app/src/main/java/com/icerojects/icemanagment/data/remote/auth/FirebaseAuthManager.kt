@@ -46,16 +46,17 @@ class FirebaseAuthManager @Inject constructor(
 
     }
 
-    suspend fun signIn(email: String, password: String): AuthOperationResult{
+    suspend fun signIn(email: String, password: String): AuthOperationResult {
 
         return try{
 
             val result = auth.signInWithEmailAndPassword(email, password).await()
-            AuthOperationResult.Succes(result.user)
+            AuthOperationResult.Success(result.user)
 
         } catch (e: Exception){
 
-            AuthOperationResult.Error(e.message ?: "Error Desconocido al iniciar sesion")
+            AuthOperationResult.Error(e.message ?: "Unknown error during sign in")
+
         }
 
     }
@@ -66,11 +67,11 @@ class FirebaseAuthManager @Inject constructor(
 
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             firestoreManager.saveNewUser(result.user)
-            AuthOperationResult.Succes(result.user)
+            AuthOperationResult.Success(result.user)
 
         } catch (e: Exception){
 
-            AuthOperationResult.Error(e.message ?: "Error desconocido en el registro")
+            AuthOperationResult.Error(e.message ?: "Unknown error during sign up")
 
         }
 
