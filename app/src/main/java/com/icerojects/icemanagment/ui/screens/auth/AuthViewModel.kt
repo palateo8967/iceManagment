@@ -68,7 +68,7 @@ class AuthViewModel @Inject constructor(
             val result = authManager.signIn(email.value.trim(), password.value.trim())
             _authUiState.value = when (result){
 
-                is AuthOperationResult.Succes -> AuthUiState.Success(result.user)
+                is AuthOperationResult.Success -> AuthUiState.Success(result.user)
                 is AuthOperationResult.Error -> AuthUiState.Error(result.errorMessage)
 
             }
@@ -85,7 +85,7 @@ class AuthViewModel @Inject constructor(
             val result = authManager.signUp(email.value.trim(), password.value.trim())
             _authUiState.value = when (result){
 
-                is AuthOperationResult.Succes -> AuthUiState.Success(result.user)
+                is AuthOperationResult.Success -> AuthUiState.Success(result.user)
                 is AuthOperationResult.Error -> AuthUiState.Error(result.errorMessage)
 
             }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,24 +19,28 @@ import com.icerojects.icemanagment.ui.screens.auth.RegisterViewModel
 fun PersonalInformationStep(viewModel: RegisterViewModel) {
     val registrationState = viewModel.registrationState.value
     
-    // Row for First Name and Last Name
+    // Nombre y apellido
     Row(
+
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
+
     ) {
-        // First Name
+        
         OutlinedTextField(
+
             value = registrationState.firstName,
             onValueChange = { viewModel.updateFirstName(it) },
-            label = { Text("First Name") },
+            label = { Text("Nombre") },
             leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
             modifier = Modifier.weight(1f),
             isError = viewModel.firstNameError.value != null,
             singleLine = true
+
         )
         
-        // Last Name
         OutlinedTextField(
+
             value = registrationState.lastName,
             onValueChange = { viewModel.updateLastName(it) },
             label = { Text("Last Name") },
@@ -43,30 +48,42 @@ fun PersonalInformationStep(viewModel: RegisterViewModel) {
             modifier = Modifier.weight(1f),
             isError = viewModel.lastNameError.value != null,
             singleLine = true
+
         )
+
     }
     
-    // Error messages for First Name and Last Name
     Row(
+
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
+
     ) {
+
         viewModel.firstNameError.value?.let {
+
             Text(
+
                 text = it,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.weight(1f)
+
             )
+
         } ?: Spacer(modifier = Modifier.weight(1f))
         
         viewModel.lastNameError.value?.let {
+
             Text(
+
                 text = it,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.weight(1f)
+
             )
+
         } ?: Spacer(modifier = Modifier.weight(1f))
     }
     
@@ -74,185 +91,241 @@ fun PersonalInformationStep(viewModel: RegisterViewModel) {
     
     // Email
     IconTextField(
+
         value = registrationState.email,
         onValueChange = { viewModel.updateEmail(it) },
         label = "Email",
         icon = Icons.Default.Email,
         isError = viewModel.emailError.value != null,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+
     )
     
     viewModel.emailError.value?.let {
+
         Text(
             text = it,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
         )
+
     }
     
     Spacer(modifier = Modifier.height(8.dp))
     
-    // Phone
+    // Telefono
     IconTextField(
+
         value = registrationState.phone,
         onValueChange = { viewModel.updatePhone(it) },
-        label = "Phone",
+        label = "Telefono",
         icon = Icons.Default.Phone,
         isError = viewModel.phoneError.value != null,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+
     )
     
     viewModel.phoneError.value?.let {
+
         Text(
+
             text = it,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
+
         )
+
     }
     
     Spacer(modifier = Modifier.height(8.dp))
     
-    // Password
+    // Contraseña
     IconTextField(
+
         value = registrationState.password,
         onValueChange = { viewModel.updatePassword(it) },
-        label = "Password",
+        label = "Contraseña",
         icon = Icons.Default.Lock,
         isError = viewModel.passwordError.value != null,
         visualTransformation = PasswordVisualTransformation()
+
     )
     
     viewModel.passwordError.value?.let {
+
         Text(
+
             text = it,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
+
         )
+
     }
     
     Spacer(modifier = Modifier.height(8.dp))
     
-    // Confirm password
+    // Confirmar
     IconTextField(
+
         value = registrationState.confirmPassword,
         onValueChange = { viewModel.updateConfirmPassword(it) },
-        label = "Confirm Password",
+        label = "Confirmar Contraseña",
         icon = Icons.Default.Lock,
         isError = viewModel.confirmPasswordError.value != null,
         visualTransformation = PasswordVisualTransformation()
+
     )
     
     viewModel.confirmPasswordError.value?.let {
+
         Text(
+
             text = it,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
+
         )
+
     }
+    
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
 
 @Composable
 fun IceCreamShopInformationStep(viewModel: RegisterViewModel) {
+
     val registrationState = viewModel.registrationState.value
     
-    // Shop name
+    // Nombre
     IconTextField(
+
         value = registrationState.shopName,
         onValueChange = { viewModel.updateShopName(it) },
-        label = "Ice Cream Shop Name",
-        icon = Icons.Default.Store,
+        label = "Nombre de tu Heladera",
+        icon = Icons.Default.Home,
         isError = viewModel.shopNameError.value != null
+
     )
     
     viewModel.shopNameError.value?.let {
+
         Text(
             text = it,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
         )
+
     }
     
     Spacer(modifier = Modifier.height(8.dp))
     
-    // Address: Street and Number
-    Text(
-        text = "Address",
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.align(Alignment.Start)
-    )
+    // Direccion
+     Column(modifier = Modifier.fillMaxWidth()) { 
+
+         Text( 
+             text = "Direccion", 
+             style = MaterialTheme.typography.bodyMedium, 
+             modifier = Modifier.align(Alignment.Start) 
+         ) 
+         
+         Spacer(modifier = Modifier.height(4.dp)) 
+     
+         Row( 
+
+              modifier = Modifier.fillMaxWidth(), 
+              horizontalArrangement = Arrangement.spacedBy(8.dp) 
+
+          ) { 
+              // Calle 
+              OutlinedTextField( 
+
+                  value = registrationState.street, 
+                  onValueChange = { viewModel.updateStreet(it) }, 
+                  label = { Text("Calle") }, 
+                  leadingIcon = { Icon(Icons.Default.LocationOn, contentDescription = null) }, 
+                  modifier = Modifier.weight(2f), 
+                  isError = viewModel.streetError.value != null, 
+                  singleLine = true 
+
+              ) 
+              
+              // Altura
+              OutlinedTextField( 
+
+                  value = registrationState.streetNumber, 
+                  onValueChange = { viewModel.updateStreetNumber(it) }, 
+                  label = { Text("Altura") }, 
+                  modifier = Modifier.weight(1f), 
+                  isError = viewModel.streetNumberError.value != null, 
+                  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), 
+                  singleLine = true 
+
+              ) 
+
+          } 
+          
+          // Error 
+          Row( 
+
+              modifier = Modifier.fillMaxWidth(), 
+              horizontalArrangement = Arrangement.spacedBy(8.dp) 
+
+          ) { 
+
+              viewModel.streetError.value?.let { 
+
+                  Text( 
+                      text = it, 
+                      color = MaterialTheme.colorScheme.error, 
+                      style = MaterialTheme.typography.bodySmall, 
+                      modifier = Modifier.weight(2f) 
+                  ) 
+
+              } ?: Spacer(modifier = Modifier.weight(2f)) 
+              
+              viewModel.streetNumberError.value?.let { 
+
+                  Text( 
+                      text = it, 
+                      color = MaterialTheme.colorScheme.error, 
+                      style = MaterialTheme.typography.bodySmall, 
+                      modifier = Modifier.weight(1f) 
+                  ) 
+
+              } ?: Spacer(modifier = Modifier.weight(1f)) 
+
+          } 
+          
+          Spacer(modifier = Modifier.height(16.dp)) 
+
+      }
     
-    Spacer(modifier = Modifier.height(4.dp))
-    
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        // Street
-        OutlinedTextField(
-            value = registrationState.street,
-            onValueChange = { viewModel.updateStreet(it) },
-            label = { Text("Street") },
-            leadingIcon = { Icon(Icons.Default.LocationOn, contentDescription = null) },
-            modifier = Modifier.weight(2f),
-            isError = viewModel.streetError.value != null,
-            singleLine = true
+    // Tipo de heladeria
+    Column(modifier = Modifier.fillMaxWidth()) {
+
+        Text(
+            text = "Tipo de heladeria",
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.align(Alignment.Start)
         )
         
-        // Street Number
-        OutlinedTextField(
-            value = registrationState.streetNumber,
-            onValueChange = { viewModel.updateStreetNumber(it) },
-            label = { Text("Number") },
-            modifier = Modifier.weight(1f),
-            isError = viewModel.streetNumberError.value != null,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true
-        )
+        Spacer(modifier = Modifier.height(4.dp))
+
     }
-    
-    // Error messages for Street and Street Number
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        viewModel.streetError.value?.let {
-            Text(
-                text = it,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.weight(2f)
-            )
-        } ?: Spacer(modifier = Modifier.weight(2f))
-        
-        viewModel.streetNumberError.value?.let {
-            Text(
-                text = it,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.weight(1f)
-            )
-        } ?: Spacer(modifier = Modifier.weight(1f))
-    }
-    
-    Spacer(modifier = Modifier.height(16.dp))
-    
-    // Shop type
-    Text(
-        text = "Shop Type",
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.align(Alignment.Start)
-    )
-    
-    Spacer(modifier = Modifier.height(4.dp))
     
     var expanded by remember { mutableStateOf(false) }
     
     ExposedDropdownMenuBox(
+
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
         modifier = Modifier.fillMaxWidth()
+
     ) {
         OutlinedTextField(
+
             value = registrationState.shopType,
             onValueChange = { },
             readOnly = true,
@@ -262,13 +335,16 @@ fun IceCreamShopInformationStep(viewModel: RegisterViewModel) {
                 .fillMaxWidth(),
             label = { Text("Select type") },
             isError = viewModel.shopTypeError.value != null
+
         )
         
         ExposedDropdownMenu(
+
             expanded = expanded,
             onDismissRequest = { expanded = false }
+
         ) {
-            listOf("Artisanal", "Industrial", "Mixed").forEach { type ->
+            listOf("Artesanal", "Industrial", "Mixto").forEach { type ->
                 DropdownMenuItem(
                     text = { Text(type) },
                     onClick = { 
@@ -281,27 +357,30 @@ fun IceCreamShopInformationStep(viewModel: RegisterViewModel) {
     }
     
     viewModel.shopTypeError.value?.let {
+        
         Text(
             text = it,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
         )
+
     }
     
     Spacer(modifier = Modifier.height(16.dp))
     
-    // Terms and conditions
+    // Terminos
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
+
         Checkbox(
             checked = registrationState.acceptTerms,
             onCheckedChange = { viewModel.updateAcceptTerms(it) }
         )
         
         Text(
-            text = "I accept the terms and conditions and privacy policy",
+            text = "Acepto los términos y condiciones y la política de privacidad",
             style = MaterialTheme.typography.bodySmall
         )
     }

@@ -31,7 +31,6 @@ fun NewAccount(
     val registrationState = viewModel.registrationState.value
     val uiState = viewModel.uiState.value
     
-    // Observe UI state changes
     LaunchedEffect(uiState) {
         if (uiState is RegistrationUiState.Success) {
             navController.navigate("homeScreen") {
@@ -40,7 +39,6 @@ fun NewAccount(
         }
     }
     
-    // Main container
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,14 +46,14 @@ fun NewAccount(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Header with icon and title
+        
         Surface(
             modifier = Modifier.size(80.dp),
             shape = MaterialTheme.shapes.extraLarge,
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
         ) {
             Icon(
-                imageVector = if (registrationState.currentStep == 1) Icons.Default.Person else Icons.Default.Store,
+                imageVector = if (registrationState.currentStep == 1) Icons.Default.Person else Icons.Default.Lock,
                 contentDescription = "Registration icon",
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(40.dp)
@@ -64,13 +62,11 @@ fun NewAccount(
         
         Spacer(modifier = Modifier.height(16.dp))
         
-        // Title based on current step
         Text(
             text = if (registrationState.currentStep == 1) "Personal Information" else "Ice Cream Shop Information",
             style = MaterialTheme.typography.headlineSmall
         )
-        
-        // Step indicator
+
         StepIndicator(
             currentStep = registrationState.currentStep,
             totalSteps = registrationState.totalSteps,
@@ -79,20 +75,18 @@ fun NewAccount(
         
         Spacer(modifier = Modifier.height(8.dp))
         
-        // Content based on current step
         when (registrationState.currentStep) {
             1 -> PersonalInformationStep(viewModel)
             2 -> IceCreamShopInformationStep(viewModel)
         }
         
         Spacer(modifier = Modifier.height(16.dp))
-        
-        // Navigation buttons
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Back button (only visible in step 2)
+
             if (registrationState.currentStep > 1) {
                 OutlinedButton(
                     onClick = { viewModel.goToPreviousStep() },
@@ -108,7 +102,6 @@ fun NewAccount(
                 Spacer(modifier = Modifier.width(16.dp))
             }
             
-            // Continue/Create Account button
             Button(
                 onClick = {
                     if (registrationState.currentStep == 1) {
@@ -134,7 +127,6 @@ fun NewAccount(
             }
         }
         
-        // Show general error
         if (uiState is RegistrationUiState.Error) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -146,15 +138,13 @@ fun NewAccount(
             )
         }
         
-        // Show loading
         if (uiState is RegistrationUiState.Loading) {
             Spacer(modifier = Modifier.height(16.dp))
             CircularProgressIndicator()
         }
         
         Spacer(modifier = Modifier.height(16.dp))
-        
-        // Link to login
+    
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
