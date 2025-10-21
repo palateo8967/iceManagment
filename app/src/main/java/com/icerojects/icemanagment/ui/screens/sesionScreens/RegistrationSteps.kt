@@ -43,7 +43,7 @@ fun PersonalInformationStep(viewModel: RegisterViewModel) {
 
             value = registrationState.lastName,
             onValueChange = { viewModel.updateLastName(it) },
-            label = { Text("Last Name") },
+            label = { Text("Apellido") },
             leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
             modifier = Modifier.weight(1f),
             isError = viewModel.lastNameError.value != null,
@@ -203,7 +203,7 @@ fun IceCreamShopInformationStep(viewModel: RegisterViewModel) {
 
         value = registrationState.shopName,
         onValueChange = { viewModel.updateShopName(it) },
-        label = "Nombre de tu Heladera",
+        label = "Nombre de tu Heladeria",
         icon = Icons.Default.Home,
         isError = viewModel.shopNameError.value != null
 

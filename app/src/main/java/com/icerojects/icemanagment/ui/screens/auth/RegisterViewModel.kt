@@ -151,8 +151,8 @@ class RegisterViewModel @Inject constructor(
     private fun validateEmail() {
         val email = _registrationState.value.email
         _emailError.value = when {
-            email.isBlank() -> "Email is required"
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Invalid email format"
+            email.isBlank() -> "El correo electronico es requerido"
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Formato invalido"
             else -> null
         }
     }
@@ -160,10 +160,10 @@ class RegisterViewModel @Inject constructor(
     private fun validatePassword() {
         val password = _registrationState.value.password
         _passwordError.value = when {
-            password.isBlank() -> "Password is required"
-            password.length < 8 -> "Password must be at least 8 characters"
-            !password.any { it.isDigit() } -> "Password must contain at least one number"
-            !password.any { it.isLetter() } -> "Password must contain at least one letter"
+            password.isBlank() -> "Contraseña requerida"
+            password.length < 8 -> "La contraseña debe tener al menos 8 caracteres"
+            !password.any { it.isDigit() } -> "La contraseña debe contener al menos un número"
+            !password.any { it.isLetter() } -> "La contraseña debe contener al menos una letra"
             else -> null
         }
         validateConfirmPassword()
@@ -173,8 +173,8 @@ class RegisterViewModel @Inject constructor(
         val password = _registrationState.value.password
         val confirmPassword = _registrationState.value.confirmPassword
         _confirmPasswordError.value = when {
-            confirmPassword.isBlank() -> "Please confirm your password"
-            confirmPassword != password -> "Passwords don't match"
+            confirmPassword.isBlank() -> "Por favor confirma tu contraseña"
+            confirmPassword != password -> "Las contraseñas no coinciden"
             else -> null
         }
     }
@@ -182,7 +182,7 @@ class RegisterViewModel @Inject constructor(
     private fun validateFirstName() {
         val firstName = _registrationState.value.firstName
         _firstNameError.value = when {
-            firstName.isBlank() -> "First name is required"
+            firstName.isBlank() -> "Nombre requerido"
             else -> null
         }
     }
@@ -190,7 +190,7 @@ class RegisterViewModel @Inject constructor(
     private fun validateLastName() {
         val lastName = _registrationState.value.lastName
         _lastNameError.value = when {
-            lastName.isBlank() -> "Last name is required"
+            lastName.isBlank() -> "Apellido requerido"
             else -> null
         }
     }
@@ -198,9 +198,9 @@ class RegisterViewModel @Inject constructor(
     private fun validatePhone() {
         val phone = _registrationState.value.phone
         _phoneError.value = when {
-            phone.isBlank() -> "Phone number is required"
-            phone.length < 8 -> "Phone number must have at least 8 digits"
-            !phone.all { it.isDigit() || it == '+' || it == ' ' || it == '-' } -> "Invalid phone format"
+            phone.isBlank() -> "Numero de telefono requerido"
+            phone.length < 8 -> "El numero de telefono debe tener al menos 8 digitos"
+            !phone.all { it.isDigit() || it == '+' || it == ' ' || it == '-' } -> "Formato de telefono invalido"
             else -> null
         }
     }
@@ -208,7 +208,7 @@ class RegisterViewModel @Inject constructor(
     private fun validateShopName() {
         val shopName = _registrationState.value.shopName
         _shopNameError.value = when {
-            shopName.isBlank() -> "Shop name is required"
+            shopName.isBlank() -> "Nombre de la tienda requerido"
             else -> null
         }
     }
@@ -216,7 +216,7 @@ class RegisterViewModel @Inject constructor(
     private fun validateStreet() {
         val street = _registrationState.value.street
         _streetError.value = when {
-            street.isBlank() -> "Street is required"
+            street.isBlank() -> "Direccion requerida"
             else -> null
         }
     }
@@ -224,8 +224,8 @@ class RegisterViewModel @Inject constructor(
     private fun validateStreetNumber() {
         val streetNumber = _registrationState.value.streetNumber
         _streetNumberError.value = when {
-            streetNumber.isBlank() -> "Street number is required"
-            !streetNumber.all { it.isDigit() } -> "Street number must be numeric"
+            streetNumber.isBlank() -> "Altura requerida"
+            !streetNumber.all { it.isDigit() } -> "La altura debe ser numerica"
             else -> null
         }
     }
@@ -233,7 +233,7 @@ class RegisterViewModel @Inject constructor(
     private fun validateShopType() {
         val shopType = _registrationState.value.shopType
         _shopTypeError.value = when {
-            shopType.isBlank() -> "Shop type is required"
+            shopType.isBlank() -> "Tipo de tienda requerido"
             else -> null
         }
     }
@@ -297,7 +297,7 @@ class RegisterViewModel @Inject constructor(
             try {
                 // Check if email already exists
                 if (checkEmailExists(_registrationState.value.email)) {
-                    _uiState.value = RegistrationUiState.Error("Email is already registered")
+                    _uiState.value = RegistrationUiState.Error("El correo ya está registrado")
                     return@launch
                 }
 
