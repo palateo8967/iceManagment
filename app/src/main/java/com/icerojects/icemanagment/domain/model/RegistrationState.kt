@@ -1,10 +1,6 @@
 package com.icerojects.icemanagment.domain.model
 
-/**
- * Model to handle multi-step registration state
- */
 data class RegistrationState(
- 
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",

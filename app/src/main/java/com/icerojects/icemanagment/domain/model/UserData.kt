@@ -1,8 +1,5 @@
 package com.icerojects.icemanagment.domain.model
 
-/**
- * Data model for user information
- */
 data class UserData(
     val uid: String = "",
     val email: String = "",

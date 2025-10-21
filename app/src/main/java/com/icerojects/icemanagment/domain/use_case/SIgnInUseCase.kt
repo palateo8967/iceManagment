@@ -7,27 +7,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class SIgnInUseCase @Inject constructor(
-
+class SignInUseCase @Inject constructor(
     private val repository: AuthRepository
-
 ) {
-
     operator fun invoke(email: String, password: String): Flow<Resource<AuthOperationResult>> = flow {
-
         emit(Resource.Loading())
-
-        try{
-
-            val result = repository.signIn(email,password)
+        
+        try {
+            val result = repository.signIn(email, password)
             emit(Resource.Success(result))
-
-        } catch (e: Exception){
-
-            emit(Resource. Error(e.localizedMessage ?: "Error inesperado en SignInUseCase"))
-
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "Error inesperado en SignInUseCase"))
         }
-
     }
-
 }

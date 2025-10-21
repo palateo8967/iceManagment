@@ -1,18 +1,24 @@
 package com.icerojects.icemanagment.domain.use_case
 
-import com.google.firebase.auth.FirebaseUser
 import com.icerojects.icemanagment.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class GetCurrentUserUseCase @Inject constructor(
-
     private val repository: AuthRepository
-
-){
-
-    operator fun invoke(): FirebaseUser? {
-
-        return repository.getCurrentUser()
-
+) {
+    operator fun invoke(): UserBasicInfo? {
+        val userId = repository.getCurrentUserId()
+        val email = repository.getCurrentUserEmail()
+        
+        return if (userId != null) {
+            UserBasicInfo(userId, email)
+        } else {
+            null
+        }
     }
 }
+
+data class UserBasicInfo(
+    val id: String,
+    val email: String?
+)

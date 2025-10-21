@@ -1,8 +1,5 @@
 package com.icerojects.icemanagment.domain.model
 
-/**
- * Data model for ice cream shop/branch information
- */
 data class IceCreamShop(
     val id: String = "",
     val name: String = "",

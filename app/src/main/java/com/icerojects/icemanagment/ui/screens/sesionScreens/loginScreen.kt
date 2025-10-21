@@ -44,11 +44,9 @@ fun Login(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 🔹 Logo
         AppLogo()
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🔹 Bienvenida
         Text("¡Bienvenido de Vuelta!", style = MaterialTheme.typography.headlineMedium)
         Text(
             "Completa los datos para continuar",
@@ -57,7 +55,6 @@ fun Login(
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🔹 Email
         IconTextField(
             value = authViewModel.email.value,
             onValueChange = { authViewModel.email.value = it },
@@ -69,7 +66,6 @@ fun Login(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 🔹 Contraseña
         IconTextField(
             value = authViewModel.password.value,
             onValueChange = { authViewModel.password.value = it },
@@ -81,7 +77,6 @@ fun Login(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // 🔹 ¿Olvidaste tu contraseña?
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
@@ -93,7 +88,6 @@ fun Login(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // 🔹 Botón principal
         if (uiState is AuthUiState.Loading) {
             CircularProgressIndicator()
         } else {
@@ -107,7 +101,6 @@ fun Login(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🔹 Link de registro
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
@@ -124,7 +117,6 @@ fun Login(
             }
         }
 
-        // 🔹 Mensaje de error
         if (uiState is AuthUiState.Error) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(

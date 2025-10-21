@@ -14,57 +14,41 @@ import com.icerojects.icemanagment.ui.screens.sesionScreens.Login
 import com.icerojects.icemanagment.ui.screens.sesionScreens.NewAccount
 
 sealed class AppScreen(val route: String) {
-
     object Login : AppScreen("login")
     object NewAccount : AppScreen("newAccount")
     object Home : AppScreen("homeScreen")
-
 }
 
 @Composable
 fun AppNavigation(
-
     authViewModel: AuthViewModel = hiltViewModel()
-
 ) {
-
     val navController = rememberNavController()
-    val currentUser by authViewModel.authState.collectAsState()
+    val isAuthenticated by authViewModel.authState.collectAsState()
 
-    val startDestination = if (currentUser != null) AppScreen.Home.route else AppScreen.Login.route
+    val startDestination = if (isAuthenticated) AppScreen.Home.route else AppScreen.Login.route
 
-    LaunchedEffect(currentUser) {
-
-        if (currentUser != null) {
-
+    LaunchedEffect(isAuthenticated) {
+        if (isAuthenticated) {
             navController.navigate(AppScreen.Home.route) {
-
                 popUpTo(0) { inclusive = true }
                 launchSingleTop = true
-
             }
-
         } else {
-
             if (navController.currentBackStackEntry?.destination?.route == AppScreen.Home.route) {
-
                 navController.navigate(AppScreen.Login.route) {
                     popUpTo(0) { inclusive = true }
                     launchSingleTop = true
                 }
                 authViewModel.resetFormAndUiState()
-
             }
         }
     }
 
     NavHost(
-
         navController = navController,
         startDestination = startDestination
-
     ) {
-
         composable(AppScreen.Login.route) {
             Login(navController)
         }
@@ -76,6 +60,5 @@ fun AppNavigation(
         composable(AppScreen.Home.route) {
             Home(navController)
         }
-
     }
 }
