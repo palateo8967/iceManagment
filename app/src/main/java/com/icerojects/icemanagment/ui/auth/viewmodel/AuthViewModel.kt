@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.auth
+package com.icerojects.icemanagment.ui.auth.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
