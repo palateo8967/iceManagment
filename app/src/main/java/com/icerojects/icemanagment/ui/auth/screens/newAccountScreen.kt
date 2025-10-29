@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.sesionScreens
+package com.icerojects.icemanagment.ui.auth.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -16,16 +16,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.icerojects.icemanagment.ui.components.IconTextField
 import com.icerojects.icemanagment.ui.components.StepIndicator
-import com.icerojects.icemanagment.ui.screens.auth.RegisterViewModel
-import com.icerojects.icemanagment.ui.screens.auth.RegistrationUiState
+import com.icerojects.icemanagment.ui.auth.viewmodel.RegisterViewModel
+import com.icerojects.icemanagment.ui.auth.viewmodel.RegistrationUiState
+import com.icerojects.icemanagment.ui.navigation.AppScreens
 
 @Composable
-fun NewAccount(
-    navController: NavHostController,
+fun NewAccountScreen(
+    navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val registrationState = viewModel.registrationState.value
@@ -33,7 +34,7 @@ fun NewAccount(
     
     LaunchedEffect(uiState) {
         if (uiState is RegistrationUiState.Success) {
-            navController.navigate("homeScreen") {
+            navController.navigate(AppScreens.HomeScreen.route) {
                 popUpTo(0) { inclusive = true }
             }
         }
@@ -153,8 +154,8 @@ fun NewAccount(
             Spacer(modifier = Modifier.width(4.dp))
             TextButton(onClick = {
                 viewModel.resetState()
-                navController.navigate("login") {
-                    popUpTo("newAccount") { inclusive = true }
+                navController.navigate(AppScreens.LoginScreen.route) {
+                    popUpTo(AppScreens.NewAccountScreen.route) { inclusive = true }
                 }
             }) {
                 Text("Sign In")

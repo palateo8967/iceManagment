@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.sesionScreens
+package com.icerojects.icemanagment.ui.auth.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.icerojects.icemanagment.ui.components.IconTextField
-import com.icerojects.icemanagment.ui.screens.auth.RegisterViewModel
+import com.icerojects.icemanagment.ui.auth.viewmodel.RegisterViewModel
 
 @Composable
 fun PersonalInformationStep(viewModel: RegisterViewModel) {

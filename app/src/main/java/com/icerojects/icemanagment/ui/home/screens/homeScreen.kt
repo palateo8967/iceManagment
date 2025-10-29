@@ -1,14 +1,16 @@
-package com.icerojects.icemanagment.ui.screens.homeScreens
+package com.icerojects.icemanagment.ui.home.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,45 +19,44 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import com.icerojects.icemanagment.ui.components.AppLogo
-import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.icerojects.icemanagment.ui.auth.viewmodel.AuthViewModel
+import com.icerojects.icemanagment.ui.navigation.AppScreens
 
-/**
- * Pantalla principal de la aplicación
- * @param navController Controlador de navegación
- * @param authViewModel ViewModel de autenticación
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-    navController: NavHostController,
+    navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
+    var selectedItem by remember { mutableStateOf(0) }
+    val items = listOf("Pedidos", "Stock", "Finanzas")
+    val icons = listOf(Icons.Default.ShoppingCart, Icons.Default.List, Icons.Default.Add)
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Panel de Control") },
+                title = { Text("Ice Management") },
                 actions = {
-                    IconButton(onClick = { /* TODO: Ir al perfil del usuario */ }) {
+                    IconButton(onClick = { /* TODO: Perfil de usuario */ }) {
                         Icon(
-                            imageVector = Icons.Filled.Person,
-                            contentDescription = "Usuario"
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Perfil"
                         )
                     }
                     IconButton(onClick = { authViewModel.signOut() }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            imageVector = Icons.Default.ExitToApp,
                             contentDescription = "Cerrar sesión"
                         )
                     }
@@ -63,69 +64,47 @@ fun Home(
             )
         },
         bottomBar = {
-            val items = listOf(
-                NavItem("Pedidos", Icons.Filled.ShoppingCart),
-                NavItem("Stock", Icons.Filled.Info),
-                NavItem("Finanzas", Icons.Filled.Add)
-            )
-            val selectedIndexState = remember { mutableStateOf(0) }
             NavigationBar {
                 items.forEachIndexed { index, item ->
                     NavigationBarItem(
-                        selected = selectedIndexState.value == index,
+                        icon = { Icon(icons[index], contentDescription = item) },
+                        label = { Text(item) },
+                        selected = selectedItem == index,
                         onClick = {
-                            selectedIndexState.value = index
-                            // TODO: Navegar a la sección correspondiente (Pedidos/Stock/Finanzas)
-                            // navController.navigate("ruta_${item.label.lowercase()}")
-                        },
-                        icon = {
-                            Icon(imageVector = item.icon, contentDescription = item.label)
-                        },
-                        label = { Text(text = item.label) }
+                            selectedItem = index
+                            when (index) {
+                                0 -> { /* TODO: Navegar a Pedidos */ }
+                                1 -> navController.navigate(AppScreens.StockScreen.route)
+                                2 -> { /* TODO: Navegar a Finanzas */ }
+                            }
+                        }
                     )
                 }
             }
         }
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp
-                )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AppLogo(size = 80)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Bienvenido",
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                Text(
+                    text = "Bienvenido a Ice Management",
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Text(
+                    text = "Selecciona una opción en la barra de navegación",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                )
             }
-            // Contenido principal de la Home (placeholder)
-            // Aquí puedes mostrar resúmenes, tarjetas o información relevante
         }
     }
 }
-
-data class NavItem(val label: String, val icon: androidx.compose.ui.graphics.vector.ImageVector)

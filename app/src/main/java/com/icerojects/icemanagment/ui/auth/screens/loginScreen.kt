@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.sesionScreens
+package com.icerojects.icemanagment.ui.auth.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,24 +12,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import com.icerojects.icemanagment.ui.screens.auth.AuthUiState
-import com.icerojects.icemanagment.ui.screens.auth.AuthViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.icerojects.icemanagment.ui.auth.viewmodel.AuthUiState
+import com.icerojects.icemanagment.ui.auth.viewmodel.AuthViewModel
 import com.icerojects.icemanagment.ui.components.AppLogo
 import com.icerojects.icemanagment.ui.components.IconTextField
+import com.icerojects.icemanagment.ui.navigation.AppScreens
 
 @Composable
-fun Login(
-    navController: NavHostController,
+fun LoginScreen(
+    navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val uiState by authViewModel.authUiState
-
+    val uiState = authViewModel.authUiState.value
+    
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
-            navController.navigate("homeScreen")
-            authViewModel.resetFormAndUiState()
+            navController.navigate(AppScreens.HomeScreen.route) {
+                popUpTo(0) { inclusive = true }
+            }
         }
     }
 
@@ -110,7 +112,7 @@ fun Login(
             TextButton(
                 onClick = {
                     authViewModel.resetFormAndUiState()
-                    navController.navigate("newAccount")
+                    navController.navigate(AppScreens.NewAccountScreen.route)
                 }
             ) {
                 Text("Regístrate aquí")

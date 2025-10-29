@@ -1,4 +1,4 @@
-package com.icerojects.icemanagment.ui.screens.auth
+package com.icerojects.icemanagment.ui.auth.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -19,12 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-sealed class RegistrationUiState {
-    object Idle : RegistrationUiState()
-    object Loading : RegistrationUiState()
-    data class Success(val user: FirebaseUser?) : RegistrationUiState()
-    data class Error(val message: String) : RegistrationUiState()
-}
+// Usando la clase RegistrationUiState definida en RegistrationUiState.kt
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
@@ -37,7 +32,7 @@ class RegisterViewModel @Inject constructor(
     private val _registrationState = mutableStateOf(RegistrationState())
     val registrationState: State<RegistrationState> = _registrationState
 
-    private val _uiState = mutableStateOf<RegistrationUiState>(RegistrationUiState.Idle)
+    private val _uiState = mutableStateOf<RegistrationUiState>(RegistrationUiState.Initial)
     val uiState: State<RegistrationUiState> = _uiState
 
     // Validations
@@ -334,7 +329,7 @@ class RegisterViewModel @Inject constructor(
                     db.collection("users").document(user.uid).set(userData).await()
                     db.collection("shops").document(shopData.id).set(shopData).await()
 
-                    _uiState.value = RegistrationUiState.Success(user)
+                    _uiState.value = RegistrationUiState.Success
                 } else {
                     _uiState.value = RegistrationUiState.Error("Error creating user")
                 }
@@ -346,7 +341,7 @@ class RegisterViewModel @Inject constructor(
 
     fun resetState() {
         _registrationState.value = RegistrationState()
-        _uiState.value = RegistrationUiState.Idle
+        _uiState.value = RegistrationUiState.Initial
         _emailError.value = null
         _passwordError.value = null
         _confirmPasswordError.value = null

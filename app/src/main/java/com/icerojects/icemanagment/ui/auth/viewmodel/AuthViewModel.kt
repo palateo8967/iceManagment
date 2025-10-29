@@ -8,7 +8,6 @@ import com.icerojects.icemanagment.domain.model.AuthOperationResult
 import com.icerojects.icemanagment.domain.use_case.GetAuthStateUseCase
 import com.icerojects.icemanagment.domain.use_case.SignInUseCase
 import com.icerojects.icemanagment.domain.use_case.SignOutUseCase
-import com.icerojects.icemanagment.domain.use_case.UserBasicInfo
 import com.icerojects.icemanagment.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +17,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class AuthUiState {
-    object Idle : AuthUiState()
-    object Loading : AuthUiState()
-    data class Success(val userId: String, val email: String?) : AuthUiState()
-    data class Error(val message: String) : AuthUiState()
-}
+// Usando la clase AuthUiState definida en AuthUiState.kt
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -35,7 +29,7 @@ class AuthViewModel @Inject constructor(
     private val _authState = MutableStateFlow<Boolean>(false)
     val authState: StateFlow<Boolean> = _authState
 
-    private val _authUiState = mutableStateOf<AuthUiState>(AuthUiState.Idle)
+    private val _authUiState = mutableStateOf<AuthUiState>(AuthUiState.Initial)
     val authUiState: State<AuthUiState> = _authUiState
 
     val email = mutableStateOf("")
@@ -46,9 +40,9 @@ class AuthViewModel @Inject constructor(
             _authState.value = isAuthenticated
             
             if (isAuthenticated) {
-                _authUiState.value = AuthUiState.Success("", null)
+                _authUiState.value = AuthUiState.Success
             } else {
-                _authUiState.value = AuthUiState.Idle
+                _authUiState.value = AuthUiState.Initial
             }
         }.launchIn(viewModelScope)
     }
@@ -62,7 +56,7 @@ class AuthViewModel @Inject constructor(
                     is Resource.Success -> {
                         when (val authResult = result.data) {
                             is AuthOperationResult.Success -> 
-                                AuthUiState.Success(authResult.userId, authResult.email)
+                                AuthUiState.Success
                             is AuthOperationResult.Error -> 
                                 AuthUiState.Error(authResult.errorMessage)
                             null -> AuthUiState.Error("Unknown error")
@@ -82,7 +76,7 @@ class AuthViewModel @Inject constructor(
                     is Resource.Success -> {
                         email.value = ""
                         password.value = ""
-                        _authUiState.value = AuthUiState.Idle
+                        _authUiState.value = AuthUiState.Initial
                     }
                     is Resource.Error -> {
                         _authUiState.value = AuthUiState.Error(result.message ?: "Error signing out")
@@ -98,6 +92,6 @@ class AuthViewModel @Inject constructor(
     fun resetFormAndUiState() {
         email.value = ""
         password.value = ""
-        _authUiState.value = AuthUiState.Idle
+        _authUiState.value = AuthUiState.Initial
     }
 }
