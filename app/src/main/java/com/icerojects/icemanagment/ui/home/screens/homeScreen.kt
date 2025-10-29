@@ -40,7 +40,7 @@ fun Home(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Pedidos", "Stock", "Finanzas")
+    val items = listOf("Orders", "Inventory", "Finance")
     val icons = listOf(Icons.Default.ShoppingCart, Icons.Default.List, Icons.Default.Add)
 
     Scaffold(
@@ -48,16 +48,16 @@ fun Home(
             TopAppBar(
                 title = { Text("Ice Management") },
                 actions = {
-                    IconButton(onClick = { /* TODO: Perfil de usuario */ }) {
+                    IconButton(onClick = { /* TODO: User profile */ }) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
-                            contentDescription = "Perfil"
+                            contentDescription = "Profile"
                         )
                     }
                     IconButton(onClick = { authViewModel.signOut() }) {
                         Icon(
                             imageVector = Icons.Default.ExitToApp,
-                            contentDescription = "Cerrar sesión"
+                            contentDescription = "Sign out"
                         )
                     }
                 }
@@ -73,9 +73,9 @@ fun Home(
                         onClick = {
                             selectedItem = index
                             when (index) {
-                                0 -> { /* TODO: Navegar a Pedidos */ }
-                                1 -> navController.navigate(AppScreens.StockScreen.route)
-                                2 -> { /* TODO: Navegar a Finanzas */ }
+                                0 -> { /* TODO: Navigate to Orders */ }
+                                1 -> navController.navigate(AppScreens.InventoryScreen.route)
+                                2 -> { /* TODO: Navigate to Finance */ }
                             }
                         }
                     )
@@ -93,13 +93,13 @@ fun Home(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Bienvenido a Ice Management",
+                    text = "Welcome to Ice Management",
                     style = MaterialTheme.typography.headlineMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(16.dp)
                 )
                 Text(
-                    text = "Selecciona una opción en la barra de navegación",
+                    text = "Select an option from the navigation bar",
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 32.dp)

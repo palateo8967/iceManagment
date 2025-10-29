@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.icerojects.icemanagment.ui.auth.screens.LoginScreen
 import com.icerojects.icemanagment.ui.auth.screens.NewAccountScreen
 import com.icerojects.icemanagment.ui.home.screens.Home
-import com.icerojects.icemanagment.ui.stock.screens.StockScreen
+import com.icerojects.icemanagment.ui.inventory.screens.InventoryScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -24,8 +24,8 @@ fun AppNavigation(navController: NavHostController) {
         composable(route = AppScreens.HomeScreen.route) {
             Home(navController)
         }
-        composable(route = AppScreens.StockScreen.route) {
-            StockScreen(navController)
+        composable(route = AppScreens.InventoryScreen.route) {
+            InventoryScreen(navController)
         }
     }
 }
