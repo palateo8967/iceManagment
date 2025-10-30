@@ -27,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.icerojects.icemanagment.ui.auth.viewmodel.AuthViewModel
@@ -40,9 +39,7 @@ fun Home(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Orders", "Inventory", "Finance")
-    val icons = listOf(Icons.Default.ShoppingCart, Icons.Default.List, Icons.Default.Add)
-
+    
     Scaffold(
         topBar = {
             TopAppBar(
@@ -51,13 +48,18 @@ fun Home(
                     IconButton(onClick = { /* TODO: User profile */ }) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
-                            contentDescription = "Profile"
+                            contentDescription = "User Profile"
                         )
                     }
-                    IconButton(onClick = { authViewModel.signOut() }) {
+                    IconButton(onClick = {
+                        authViewModel.signOut()
+                        navController.navigate(AppScreens.LoginScreen.route) {
+                            popUpTo(AppScreens.HomeScreen.route) { inclusive = true }
+                        }
+                    }) {
                         Icon(
                             imageVector = Icons.Default.ExitToApp,
-                            contentDescription = "Sign out"
+                            contentDescription = "Sign Out"
                         )
                     }
                 }
@@ -65,44 +67,52 @@ fun Home(
         },
         bottomBar = {
             NavigationBar {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        icon = { Icon(icons[index], contentDescription = item) },
-                        label = { Text(item) },
-                        selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                            when (index) {
-                                0 -> { /* TODO: Navigate to Orders */ }
-                                1 -> navController.navigate(AppScreens.InventoryScreen.route)
-                                2 -> { /* TODO: Navigate to Finance */ }
-                            }
-                        }
-                    )
-                }
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.ShoppingCart, contentDescription = "Orders") },
+                    label = { Text("Pedidos") },
+                    selected = selectedItem == 0,
+                    onClick = {
+                        selectedItem = 0
+                        navController.navigate(AppScreens.OrdersScreen.route)
+                    }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.List, contentDescription = "Inventory") },
+                    label = { Text("Inventario") },
+                    selected = selectedItem == 1,
+                    onClick = {
+                        selectedItem = 1
+                        navController.navigate(AppScreens.InventoryScreen.route)
+                    }
+                )
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Add, contentDescription = "Finance") },
+                    label = { Text("Finanzas") },
+                    selected = selectedItem == 2,
+                    onClick = {
+                        selectedItem = 2
+                        // TODO: Navigate to Finance
+                    }
+                )
             }
         }
-    ) { innerPadding ->
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "Welcome to Ice Management",
+                    text = "Bienvenido a Ice Management",
                     style = MaterialTheme.typography.headlineMedium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp)
+                    textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Select an option from the navigation bar",
+                    text = "Selecciona una opción del menú inferior",
                     style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 32.dp)
+                    textAlign = TextAlign.Center
                 )
             }
         }

@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,5 +27,9 @@ class FirestoreManager @Inject constructor() {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun generateId(): String {
+        return UUID.randomUUID().toString()
     }
 }
