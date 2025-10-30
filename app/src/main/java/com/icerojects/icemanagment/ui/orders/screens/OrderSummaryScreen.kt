@@ -37,6 +37,7 @@ import com.icerojects.icemanagment.ui.orders.viewmodel.OrdersViewModel
 import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.util.Locale
+import com.icerojects.icemanagment.ui.navigation.AppScreens
 
 /**
  * Screen to display the order summary
@@ -58,7 +59,7 @@ fun OrderSummaryScreen(
                     snackbarHostState.showSnackbar(event.message)
                 }
                 is OrdersViewModel.UiEvent.NavigateToCheckout -> {
-                    // Navigate to checkout screen (will be implemented later)
+                    navController.navigate(AppScreens.CheckoutScreen.route)
                 }
                 is OrdersViewModel.UiEvent.NavigateBack -> {
                     navController.popBackStack()

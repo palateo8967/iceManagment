@@ -33,6 +33,7 @@ import com.icerojects.icemanagment.ui.components.CategoryChip
 import com.icerojects.icemanagment.ui.components.ProductCard
 import com.icerojects.icemanagment.ui.orders.viewmodel.OrdersViewModel
 import kotlinx.coroutines.flow.collectLatest
+import com.icerojects.icemanagment.ui.navigation.AppScreens
 
 /**
  * Main screen for orders management
@@ -57,7 +58,7 @@ fun OrdersScreen(
                     snackbarHostState.showSnackbar(event.message)
                 }
                 is OrdersViewModel.UiEvent.NavigateToCheckout -> {
-                    // Will be implemented later
+                    navController.navigate(AppScreens.OrderSummaryScreen.route)
                 }
                 is OrdersViewModel.UiEvent.NavigateBack -> {
                     navController.popBackStack()

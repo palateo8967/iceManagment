@@ -278,49 +278,54 @@ class ProductFirestoreService @Inject constructor() {
 
         val subscription = productsCollection
             .whereEqualTo("categoryId", categoryId)
-            .orderBy("name")
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     trySend(Resource.Error(error.message ?: "Unknown error"))
                     return@addSnapshotListener
                 }
-
-                val products = snapshot?.documents?.mapNotNull { document ->
-                    try {
-                        val id = document.id
-                        val name = document.getString("name") ?: ""
-                        val categoryId = document.getString("categoryId") ?: ""
-                        val categoryName = document.getString("categoryName") ?: ""
-                        val quantity = document.getDouble("quantity") ?: 0.0
-                        val unitString = document.getString("unit") ?: UnitOfMeasure.UNIT.name
-                        val unit = try {
-                            UnitOfMeasure.valueOf(unitString)
+                
+                if (snapshot != null) {
+                    val products = snapshot.documents.mapNotNull { document ->
+                        try {
+                            val id = document.id
+                            val name = document.getString("name") ?: ""
+                            val categoryId = document.getString("categoryId") ?: ""
+                            val categoryName = document.getString("categoryName") ?: ""
+                            val quantity = document.getDouble("quantity") ?: 0.0
+                            val unitString = document.getString("unit") ?: "UNIT"
+                            val unit = try {
+                                UnitOfMeasure.valueOf(unitString)
+                            } catch (e: Exception) {
+                                UnitOfMeasure.UNIT
+                            }
+                            val minStock = document.getDouble("minStock") ?: 0.0
+                            val price = document.getDouble("price") ?: 0.0
+                            val createdAtTimestamp = document.getTimestamp("createdAt")
+                            val createdAt = createdAtTimestamp?.toDate() ?: Date()
+                            
+                            Product(
+                                id = id,
+                                name = name,
+                                categoryId = categoryId,
+                                categoryName = categoryName,
+                                quantity = quantity,
+                                unit = unit,
+                                minStock = minStock,
+                                price = price,
+                                createdAt = createdAt
+                            )
                         } catch (e: Exception) {
-                            UnitOfMeasure.UNIT
+                            null
                         }
-                        val minStock = document.getDouble("minStock") ?: 0.0
-                        val price = document.getDouble("price") ?: 0.0
-                        val createdAt = (document.getTimestamp("createdAt")?.toDate() ?: Date())
-
-                        Product(
-                            id = id,
-                            name = name,
-                            categoryId = categoryId,
-                            categoryName = categoryName,
-                            quantity = quantity,
-                            unit = unit,
-                            minStock = minStock,
-                            price = price,
-                            createdAt = createdAt
-                        )
-                    } catch (e: Exception) {
-                        null
                     }
-                } ?: emptyList()
-
-                trySend(Resource.Success(products))
+                    trySend(Resource.Success(products))
+                } else {
+                    trySend(Resource.Success(emptyList()))
+                }
             }
-
-        awaitClose { subscription.remove() }
+        
+        awaitClose {
+            subscription.remove()
+        }
     }
 }

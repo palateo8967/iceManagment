@@ -45,10 +45,10 @@ fun Home(
             TopAppBar(
                 title = { Text("Ice Management") },
                 actions = {
-                    IconButton(onClick = { /* TODO: User profile */ }) {
+                    IconButton(onClick = { navController.navigate(AppScreens.OrdersScreen.route) }) {
                         Icon(
-                            imageVector = Icons.Default.AccountCircle,
-                            contentDescription = "User Profile"
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add"
                         )
                     }
                     IconButton(onClick = {

@@ -129,7 +129,8 @@ fun ProductCard(
                         if (quantity < product.quantity) {
                             quantity += 1
                         }
-                    }
+                    },
+                    enabled = quantity < product.quantity
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -147,7 +148,8 @@ fun ProductCard(
                             quantity = 0.0
                         }
                     },
-                    enabled = quantity > 0
+                    enabled = quantity > 0 && quantity <= product.quantity,
+                    modifier = Modifier.fillMaxWidth(0.5f)
                 ) {
                     Text(text = "Agregar al pedido")
                 }

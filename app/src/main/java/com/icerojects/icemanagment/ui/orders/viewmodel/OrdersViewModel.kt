@@ -62,8 +62,11 @@ class OrdersViewModel @Inject constructor(
     private val _ordersState = mutableStateOf<OrdersState>(OrdersState())
     val ordersState: State<OrdersState> = _ordersState
 
-    // State for current order
-    private val _currentOrderState = mutableStateOf<CurrentOrderState>(CurrentOrderState())
+    // State for current order - usando companion object para mantener el estado entre pantallas
+    companion object {
+        private val _sharedCurrentOrderState = mutableStateOf<CurrentOrderState>(CurrentOrderState())
+    }
+    private val _currentOrderState = _sharedCurrentOrderState
     val currentOrderState: State<CurrentOrderState> = _currentOrderState
 
     // State for checkout
@@ -206,7 +209,15 @@ class OrdersViewModel @Inject constructor(
                 
                 if (quantity <= 0) {
                     viewModelScope.launch {
-                        _eventFlow.emit(UiEvent.ShowSnackbar("Quantity must be greater than 0"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar("La cantidad debe ser mayor que 0"))
+                    }
+                    return
+                }
+                
+                // Verificar si hay suficiente stock
+                if (quantity > product.quantity) {
+                    viewModelScope.launch {
+                        _eventFlow.emit(UiEvent.ShowSnackbar("No hay suficiente stock disponible"))
                     }
                     return
                 }
@@ -241,6 +252,20 @@ class OrdersViewModel @Inject constructor(
                     orderItems = orderItems,
                     totalAmount = totalAmount
                 )
+                
+                // Actualizar el producto en tiempo real (reducir stock)
+                val updatedProduct = product.copy(
+                    quantity = product.quantity - quantity
+                )
+                
+                // Actualizar la lista de productos
+                val updatedProducts = _productsState.value.products.map {
+                    if (it.id == product.id) updatedProduct else it
+                }
+                
+                _productsState.value = _productsState.value.copy(
+                    products = updatedProducts
+                )
             }
             
             is OrdersEvent.RemoveProductFromOrder -> {
@@ -248,7 +273,26 @@ class OrdersViewModel @Inject constructor(
                 val itemToRemove = orderItems.find { it.id == event.orderItemId }
                 
                 if (itemToRemove != null) {
+                    // Restaurar el stock del producto
+                    val productId = itemToRemove.productId
+                    val quantityToRestore = itemToRemove.quantity
+                    
+                    // Actualizar la lista de productos
+                    val updatedProducts = _productsState.value.products.map { product ->
+                        if (product.id == productId) {
+                            product.copy(quantity = product.quantity + quantityToRestore)
+                        } else {
+                            product
+                        }
+                    }
+                    
+                    _productsState.value = _productsState.value.copy(
+                        products = updatedProducts
+                    )
+                    
+                    // Eliminar el item del pedido
                     orderItems.remove(itemToRemove)
+                    
                     val totalAmount = orderItems.sumOf { it.totalPrice }
                     
                     _currentOrderState.value = _currentOrderState.value.copy(
@@ -267,15 +311,61 @@ class OrdersViewModel @Inject constructor(
                     
                     if (newQuantity <= 0) {
                         // Remove item if quantity becomes 0 or negative
+                        // Restaurar el stock del producto
+                        val productId = itemToUpdate.productId
+                        val quantityToRestore = itemToUpdate.quantity
+                        
+                        // Actualizar la lista de productos
+                        val updatedProducts = _productsState.value.products.map { product ->
+                            if (product.id == productId) {
+                                product.copy(quantity = product.quantity + quantityToRestore)
+                            } else {
+                                product
+                            }
+                        }
+                        
+                        _productsState.value = _productsState.value.copy(
+                            products = updatedProducts
+                        )
+                        
                         orderItems.remove(itemToUpdate)
                     } else {
-                        // Update item quantity
-                        val updatedItem = itemToUpdate.copy(
-                            quantity = newQuantity,
-                            totalPrice = newQuantity * itemToUpdate.unitPrice
-                        )
-                        val index = orderItems.indexOf(itemToUpdate)
-                        orderItems[index] = updatedItem
+                        // Encontrar el producto correspondiente
+                        val product = _productsState.value.products.find { it.id == itemToUpdate.productId }
+                        
+                        if (product != null) {
+                            val quantityDifference = event.quantityChange
+                            
+                            // Verificar si hay suficiente stock para aumentar la cantidad
+                            if (quantityDifference > 0 && quantityDifference > product.quantity) {
+                                viewModelScope.launch {
+                                    _eventFlow.emit(UiEvent.ShowSnackbar("No hay suficiente stock disponible"))
+                                }
+                                return
+                            }
+                            
+                            // Actualizar el stock del producto
+                            val updatedProduct = product.copy(
+                                quantity = product.quantity - quantityDifference
+                            )
+                            
+                            // Actualizar la lista de productos
+                            val updatedProducts = _productsState.value.products.map {
+                                if (it.id == product.id) updatedProduct else it
+                            }
+                            
+                            _productsState.value = _productsState.value.copy(
+                                products = updatedProducts
+                            )
+                            
+                            // Update item quantity
+                            val updatedItem = itemToUpdate.copy(
+                                quantity = newQuantity,
+                                totalPrice = newQuantity * itemToUpdate.unitPrice
+                            )
+                            val index = orderItems.indexOf(itemToUpdate)
+                            orderItems[index] = updatedItem
+                        }
                     }
                     
                     val totalAmount = orderItems.sumOf { it.totalPrice }
@@ -287,13 +377,17 @@ class OrdersViewModel @Inject constructor(
                 }
             }
             
-            OrdersEvent.ConfirmOrder -> {
+            is OrdersEvent.ConfirmOrder -> {
                 if (_currentOrderState.value.orderItems.isEmpty()) {
                     viewModelScope.launch {
-                        _eventFlow.emit(UiEvent.ShowSnackbar("Cannot confirm an empty order"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar("No hay productos en el pedido"))
                     }
                     return
                 }
+                
+                // Guardamos el estado actual antes de navegar
+                val savedOrderItems = _currentOrderState.value.orderItems
+                val savedTotalAmount = _currentOrderState.value.totalAmount
                 
                 viewModelScope.launch {
                     _eventFlow.emit(UiEvent.NavigateToCheckout)
