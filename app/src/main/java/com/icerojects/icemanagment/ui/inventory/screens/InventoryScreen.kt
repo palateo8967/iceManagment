@@ -1,6 +1,7 @@
 package com.icerojects.icemanagment.ui.inventory.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,6 +39,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -47,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,6 +58,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.icerojects.icemanagment.domain.model.Product
 import com.icerojects.icemanagment.ui.inventory.viewmodel.InventoryViewModel
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.SecondaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.util.Locale
@@ -101,12 +107,19 @@ fun InventoryScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Inventory Management") },
+                title = { Text("Inventario", color = White) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = PrimaryBlue,
+                    titleContentColor = White,
+                    navigationIconContentColor = White,
+                    actionIconContentColor = White
+                ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Atras",
+                            tint = White
                         )
                     }
                 },
@@ -114,7 +127,8 @@ fun InventoryScreen(
                     IconButton(onClick = { showAddProductDialog = true }) {
                         Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "Add Product"
+                            contentDescription = "Añadir producto",
+                            tint = White
                         )
                     }
                 }
@@ -127,21 +141,27 @@ fun InventoryScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // Search bar
+            // Buscar producto
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { viewModel.onEvent(InventoryViewModel.InventoryEvent.SearchProducts(it)) },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search products...") },
+                placeholder = { Text("Buscar producto...") },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search"
+                        contentDescription = "Buscar"
                     )
                 }
             )
             
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Resumen de ítems (Total, Stock Bajo, Stock OK)
+            val totalItems = productsState.items.size
+            val stockLow = productsState.items.count { it.quantity < it.minStock }
+            val stockOk = totalItems - stockLow
+            StatsRow(totalItems = totalItems, stockLow = stockLow, stockOk = stockOk)
             
             // Category filters section
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -151,14 +171,15 @@ fun InventoryScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Filter by category",
-                        style = MaterialTheme.typography.titleMedium
+                        text = "Filtrar por categoría",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = PrimaryBlue
                     )
                     
                     IconButton(onClick = { showAddCategoryDialog = true }) {
                         Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "Add Category"
+                            contentDescription = "Agregar categoría"
                         )
                     }
                 }
@@ -182,7 +203,7 @@ fun InventoryScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No categories available",
+                            text = "No hay categorías disponibles",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.error
                         )
@@ -193,7 +214,7 @@ fun InventoryScreen(
                     ) {
                         item {
                             CategoryChip(
-                                name = "All",
+                                name = "Todos",
                                 isSelected = selectedCategoryId == null,
                                 onClick = {
                                     viewModel.onEvent(InventoryViewModel.InventoryEvent.FilterByCategory(null))
@@ -219,7 +240,7 @@ fun InventoryScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            // Products list
+            // Lista de productos
             if (productsState.isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -233,7 +254,7 @@ fun InventoryScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No products available",
+                        text = "No hay productos disponibles",
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center
                     )
@@ -285,7 +306,7 @@ fun CategoryChip(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
             .clickable(onClick = onClick),
-        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+        color = if (isSelected) PrimaryBlue else SecondaryBlue.copy(alpha = 0.3f)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -294,10 +315,10 @@ fun CategoryChip(
             Text(
                 text = name,
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (isSelected) White else PrimaryBlue
             )
             
-            if (onDelete != null && name != "All") {
+            if (onDelete != null && name != "Todos") {
                 Spacer(modifier = Modifier.width(4.dp))
                 IconButton(
                     onClick = onDelete,
@@ -306,7 +327,7 @@ fun CategoryChip(
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete category",
-                        tint = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
+                        tint = if (isSelected) White else PrimaryBlue,
                         modifier = Modifier.size(16.dp)
                     )
                 }
@@ -322,10 +343,18 @@ fun ProductCard(
     onDeleteClick: () -> Unit
 ) {
     val currencyFormat = NumberFormat.getCurrencyInstance(Locale("es", "AR"))
+    val isLowStock = product.quantity < product.minStock
+    val borderColor = if (isLowStock) MaterialTheme.colorScheme.error else Color(0xFF2ECC71)
+    val backgroundTint = if (isLowStock) MaterialTheme.colorScheme.error.copy(alpha = 0.08f) else Color(0xFFE8F6F0)
     
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(12.dp)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = backgroundTint
+        )
     ) {
         Column(
             modifier = Modifier
@@ -337,6 +366,22 @@ fun ProductCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Avatar / imagen del producto (placeholder con inicial)
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color.White.copy(alpha = 0.8f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = product.name.firstOrNull()?.uppercase() ?: "?",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = PrimaryBlue,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = product.name,
                     style = MaterialTheme.typography.titleMedium,
@@ -350,22 +395,22 @@ fun ProductCard(
                     IconButton(onClick = onEditClick) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit",
-                            tint = MaterialTheme.colorScheme.primary
+                            contentDescription = "Editar",
+                            tint = PrimaryBlue
                         )
                     }
                     
                     IconButton(onClick = onDeleteClick) {
                         Icon(
                             imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete",
+                            contentDescription = "Eliminar",
                             tint = MaterialTheme.colorScheme.error
                         )
                     }
                 }
             }
             
-            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            Divider(modifier = Modifier.padding(vertical = 8.dp), color = borderColor)
             
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -373,7 +418,7 @@ fun ProductCard(
             ) {
                 Column {
                     Text(
-                        text = "Category",
+                        text = "Categoría",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -385,7 +430,7 @@ fun ProductCard(
                 
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Quantity",
+                        text = "Cantidad",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -404,7 +449,7 @@ fun ProductCard(
             ) {
                 Column {
                     Text(
-                        text = "Minimum stock",
+                        text = "Stock mínimo",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -416,37 +461,68 @@ fun ProductCard(
                 
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Price",
+                        text = "Precio",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = currencyFormat.format(product.price),
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                            text = currencyFormat.format(product.price),
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = PrimaryBlue
+                        )
                 }
             }
             
             // Visual indicator if stock is below minimum
-            if (product.quantity < product.minStock) {
+            if (isLowStock) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(MaterialTheme.colorScheme.errorContainer)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.error.copy(alpha = 0.12f))
                         .padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Stock below minimum!",
+                        text = "Stock bajo",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onErrorContainer
+                        color = Color.Black
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun StatsRow(totalItems: Int, stockLow: Int, stockOk: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        StatsCard(number = totalItems, label = "Total Items", numberColor = PrimaryBlue)
+        StatsCard(number = stockLow, label = "Stock Bajo", numberColor = MaterialTheme.colorScheme.error)
+        StatsCard(number = stockOk, label = "Stock OK", numberColor = Color(0xFF2ECC71))
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+private fun StatsCard(number: Int, label: String, numberColor: Color) {
+    Card(
+        modifier = Modifier.weight(1f),
+        colors = CardDefaults.cardColors(containerColor = White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = number.toString(), color = numberColor, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = label, style = MaterialTheme.typography.bodySmall)
         }
     }
 }

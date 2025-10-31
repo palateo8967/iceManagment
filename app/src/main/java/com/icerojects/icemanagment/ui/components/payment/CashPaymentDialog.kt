@@ -18,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import java.text.NumberFormat
 import java.util.Locale
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Dialog for cash payment with change calculation
@@ -68,7 +71,7 @@ fun CashPaymentDialog(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                        containerColor = White
                     )
                 ) {
                     Column(
@@ -85,7 +88,7 @@ fun CashPaymentDialog(
                             text = currencyFormat.format(totalAmount),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = PrimaryBlue
                         )
                     }
                 }
@@ -113,7 +116,7 @@ fun CashPaymentDialog(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = if (change >= 0) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.errorContainer
+                        containerColor = White
                     )
                 ) {
                     Column(
@@ -130,7 +133,7 @@ fun CashPaymentDialog(
                             text = currencyFormat.format(if (change >= 0) change else -change),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
-                            color = if (change >= 0) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.error
+                            color = if (change >= 0) PrimaryBlue else Color.Black
                         )
                     }
                 }

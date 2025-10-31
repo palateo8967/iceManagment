@@ -46,7 +46,10 @@ fun ProductCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = com.icerojects.icemanagment.ui.theme.White
+        )
     ) {
         Column(
             modifier = Modifier.padding(16.dp)

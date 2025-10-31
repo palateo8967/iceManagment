@@ -8,4 +8,11 @@ sealed class AppScreens(val route: String) {
     object OrdersScreen : AppScreens("orders_screen")
     object OrderSummaryScreen : AppScreens("order_summary_screen")
     object CheckoutScreen : AppScreens("checkout_screen")
+    object ProfileScreen : AppScreens("profile_screen")
+    object FinanceScreen : AppScreens("finance_screen")
+    object OrderDetailScreen : AppScreens("order_detail_screen/{orderId}")
+    
+    fun createOrderDetailRoute(orderId: String): String {
+        return "order_detail_screen/$orderId"
+    }
 }

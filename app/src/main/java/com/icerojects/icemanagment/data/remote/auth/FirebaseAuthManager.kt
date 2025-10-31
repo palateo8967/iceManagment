@@ -40,7 +40,7 @@ class FirebaseAuthManager @Inject constructor(
                 email = result.user?.email
             )
         } catch (e: Exception) {
-            AuthOperationResult.Error(e.message ?: "Unknown error during sign in")
+            AuthOperationResult.Error(e.message ?: "Error desconocido al iniciar sesión")
         }
     }
 
@@ -53,7 +53,7 @@ class FirebaseAuthManager @Inject constructor(
                 email = result.user?.email
             )
         } catch (e: Exception) {
-            AuthOperationResult.Error(e.message ?: "Unknown error during sign up")
+            AuthOperationResult.Error(e.message ?: "Error desconocido al registrarse")
         }
     }
 

@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,11 +26,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.icerojects.icemanagment.domain.model.UnitOfMeasure
 import com.icerojects.icemanagment.ui.inventory.viewmodel.InventoryViewModel
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Dialog for adding or editing products
@@ -58,7 +62,7 @@ fun AddEditProductDialog(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = if (isEditing) "Edit Product" else "Add Product",
+                    text = if (isEditing) "Editar Producto" else "Agregar Producto",
                     style = MaterialTheme.typography.headlineSmall
                 )
                 
@@ -68,7 +72,7 @@ fun AddEditProductDialog(
                 OutlinedTextField(
                     value = productFormState.name,
                     onValueChange = { viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.Name(it))) },
-                    label = { Text("Name") },
+                    label = { Text("Nombre") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -84,25 +88,46 @@ fun AddEditProductDialog(
                         value = categoriesState.categories.find { it.id == productFormState.categoryId }?.name ?: "",
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Category") },
+                        label = { Text("Categoría") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCategoryDropdown) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor()
+                            .menuAnchor(),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = White,
+                            unfocusedContainerColor = White,
+                            disabledContainerColor = White,
+                            errorContainerColor = White,
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedIndicatorColor = Color.Black,
+                            unfocusedIndicatorColor = Color.Black,
+                            errorIndicatorColor = Color.Black,
+                            focusedLabelColor = PrimaryBlue
+                        )
                     )
                     
-                    ExposedDropdownMenu(
-                        expanded = expandedCategoryDropdown,
-                        onDismissRequest = { expandedCategoryDropdown = false }
+                    MaterialTheme(
+                        colorScheme = MaterialTheme.colorScheme.copy(
+                            surface = White,
+                            background = White
+                        ),
+                        typography = MaterialTheme.typography,
+                        shapes = MaterialTheme.shapes
                     ) {
-                        categoriesState.categories.forEach { category ->
-                            DropdownMenuItem(
-                                text = { Text(category.name) },
-                                onClick = {
-                                    viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.CategoryId(category.id)))
-                                    expandedCategoryDropdown = false
-                                }
-                            )
+                        ExposedDropdownMenu(
+                            expanded = expandedCategoryDropdown,
+                            onDismissRequest = { expandedCategoryDropdown = false }
+                        ) {
+                            categoriesState.categories.forEach { category ->
+                                DropdownMenuItem(
+                                    text = { Text(category.name, color = Color.Black) },
+                                    onClick = {
+                                        viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.CategoryId(category.id)))
+                                        expandedCategoryDropdown = false
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -120,7 +145,7 @@ fun AddEditProductDialog(
                             val quantity = it.toDoubleOrNull() ?: 0.0
                             viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.Quantity(quantity)))
                         },
-                        label = { Text("Quantity") },
+                        label = { Text("Cantidad") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.weight(1f)
                     )
@@ -138,21 +163,42 @@ fun AddEditProductDialog(
                             readOnly = true,
                             label = { Text("Unit") },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedUnitDropdown) },
-                            modifier = Modifier.menuAnchor()
+                            modifier = Modifier.menuAnchor(),
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = White,
+                                unfocusedContainerColor = White,
+                                disabledContainerColor = White,
+                                errorContainerColor = White,
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                focusedIndicatorColor = Color.Black,
+                                unfocusedIndicatorColor = Color.Black,
+                                errorIndicatorColor = Color.Black,
+                                focusedLabelColor = PrimaryBlue
+                            )
                         )
                         
-                        ExposedDropdownMenu(
-                            expanded = expandedUnitDropdown,
-                            onDismissRequest = { expandedUnitDropdown = false }
+                        MaterialTheme(
+                            colorScheme = MaterialTheme.colorScheme.copy(
+                                surface = White,
+                                background = White
+                            ),
+                            typography = MaterialTheme.typography,
+                            shapes = MaterialTheme.shapes
                         ) {
-                            UnitOfMeasure.values().forEach { unit ->
-                                DropdownMenuItem(
-                                    text = { Text(unit.name) },
-                                    onClick = {
-                                        viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.Unit(unit)))
-                                        expandedUnitDropdown = false
-                                    }
-                                )
+                            ExposedDropdownMenu(
+                                expanded = expandedUnitDropdown,
+                                onDismissRequest = { expandedUnitDropdown = false }
+                            ) {
+                                UnitOfMeasure.values().forEach { unit ->
+                                    DropdownMenuItem(
+                                        text = { Text(unit.name, color = Color.Black) },
+                                        onClick = {
+                                            viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.Unit(unit)))
+                                            expandedUnitDropdown = false
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
@@ -167,7 +213,7 @@ fun AddEditProductDialog(
                         val minStock = it.toDoubleOrNull() ?: 0.0
                         viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.MinStock(minStock)))
                     },
-                    label = { Text("Minimum stock") },
+                    label = { Text("Stock Mínimo") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -181,7 +227,7 @@ fun AddEditProductDialog(
                         val price = it.toDoubleOrNull() ?: 0.0
                         viewModel.onEvent(InventoryViewModel.InventoryEvent.UpdateProductField(InventoryViewModel.ProductField.Price(price)))
                     },
-                    label = { Text("Price") },
+                    label = { Text("Precio") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -198,7 +244,7 @@ fun AddEditProductDialog(
                             onDismiss()
                         }
                     ) {
-                        Text("Cancel")
+                        Text("Cancelar")
                     }
                     
                     Spacer(modifier = Modifier.width(8.dp))
@@ -208,7 +254,7 @@ fun AddEditProductDialog(
                             viewModel.onEvent(InventoryViewModel.InventoryEvent.SaveProduct)
                         }
                     ) {
-                        Text("Save")
+                        Text("Guardar")
                     }
                 }
             }

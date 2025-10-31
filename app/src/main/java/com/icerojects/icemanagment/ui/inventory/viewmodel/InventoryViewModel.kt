@@ -74,6 +74,8 @@ class InventoryViewModel @Inject constructor(
 
     // Jobs for search debounce
     private var searchJob: Job? = null
+    // Ensure we only seed default categories once per app session
+    private var defaultCategoriesSeeded: Boolean = false
 
     init {
         loadProducts()
@@ -115,6 +117,15 @@ class InventoryViewModel @Inject constructor(
                         categories = result.data ?: emptyList(),
                         isLoading = false
                     )
+                    // Seed default categories if none exist
+                    if (!defaultCategoriesSeeded) {
+                        val existing = result.data ?: emptyList()
+                        if (existing.isEmpty()) {
+                            seedDefaultCategories()
+                        } else {
+                            defaultCategoriesSeeded = true
+                        }
+                    }
                 }
                 is Resource.Error -> {
                     _categoriesState.value = CategoriesState(
@@ -131,6 +142,21 @@ class InventoryViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun seedDefaultCategories() {
+        viewModelScope.launch {
+            val defaults = listOf("Helados", "Postres", "Accesorios")
+            defaults.forEach { name ->
+                val category = Category(name = name, createdAt = Date())
+                when (addCategoryUseCase(category)) {
+                    is Resource.Success -> { /* no-op */ }
+                    is Resource.Error -> { /* ignore seeding errors */ }
+                    is Resource.Loading -> { /* no-op */ }
+                }
+            }
+            defaultCategoriesSeeded = true
+        }
     }
 
     // Functions to handle UI events

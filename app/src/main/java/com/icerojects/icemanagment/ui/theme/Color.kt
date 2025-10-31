@@ -20,16 +20,6 @@ val SurfaceDark = Color(0xFF121212)
 val ErrorColor = Color(0xFFB00020)
 val ErrorColorDark = Color(0xFFCF6679)
 
-// 🎨 Colores fijos usados en Home
-val GreenPedido = Color(0xFF4CAF50)
-val BlueStock = Color(0xFF3F51B5)
-val OrangeFinanzas = Color(0xFFFF9800)
-val RedCerrarSesion = Color(0xFFF44336)
-
-// 🎨 Colores adicionales para la UI
+// 🎨 Colores de fondo
 val BackgroundLight = Color(0xFFFFFFFF)
 val BackgroundDark = Color(0xFF121212)
-val CardLight = Color(0xFFFFFFFF)
-val CardDark = Color(0xFF1E1E1E)
-val DividerLight = Color(0xFFE0E0E0)
-val DividerDark = Color(0xFF2A2A2A)

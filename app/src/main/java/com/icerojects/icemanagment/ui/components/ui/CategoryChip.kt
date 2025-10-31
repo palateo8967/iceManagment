@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Component to display a category as a chip with an icon
@@ -36,7 +38,7 @@ fun CategoryChip(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
             .clickable(onClick = onClick),
-        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+        color = if (isSelected) PrimaryBlue else White
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -47,13 +49,13 @@ fun CategoryChip(
                 imageVector = icon,
                 contentDescription = name,
                 modifier = Modifier.size(20.dp),
-                tint = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                tint = if (isSelected) White else PrimaryBlue
             )
             
             Text(
                 text = name,
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
+                color = if (isSelected) White else PrimaryBlue,
                 modifier = Modifier.padding(start = 8.dp)
             )
         }

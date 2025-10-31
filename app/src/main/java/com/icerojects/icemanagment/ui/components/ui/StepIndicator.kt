@@ -14,6 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Step indicator for multi-step processes
@@ -51,8 +53,8 @@ fun StepIndicator(
                         .size(12.dp)
                         .clip(CircleShape)
                         .background(
-                            if (isActive) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.surfaceVariant
+                            if (isActive) PrimaryBlue
+                            else White
                         )
                 )
                 
@@ -63,8 +65,8 @@ fun StepIndicator(
                             .height(2.dp)
                             .align(Alignment.CenterVertically)
                             .background(
-                                if (i < currentStep) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.surfaceVariant
+                                if (i < currentStep) PrimaryBlue
+                                else White
                             )
                     )
                 }

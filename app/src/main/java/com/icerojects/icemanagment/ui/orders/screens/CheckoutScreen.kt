@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -41,6 +42,8 @@ import com.icerojects.icemanagment.ui.components.AppTopBar
 import com.icerojects.icemanagment.ui.components.CashPaymentDialog
 import com.icerojects.icemanagment.ui.components.PaymentMethodButton
 import com.icerojects.icemanagment.ui.orders.viewmodel.OrdersViewModel
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -181,7 +184,7 @@ fun CheckoutScreen(
                 modifier = Modifier.fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = White
                 )
             ) {
                 Column(
@@ -234,6 +237,7 @@ fun CheckoutScreen(
                                 PaymentMethod.MERCADO_PAGO -> "Mercado Pago"
                                 PaymentMethod.QR -> "QR"
                                 PaymentMethod.OTHER -> "Otro"
+                                null -> "Selecciona un metodo"
                             },
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold
@@ -257,7 +261,7 @@ fun CheckoutScreen(
                         Text(
                             text = currencyFormat.format(currentOrderState.totalAmount),
                             style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = PrimaryBlue,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -281,6 +285,11 @@ fun CheckoutScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = checkoutState.customerName.isNotBlank()
+            ,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PrimaryBlue,
+                    contentColor = White
+                )
             ) {
                 Text(text = "Crear venta")
             }

@@ -236,7 +236,7 @@ class RegisterViewModel @Inject constructor(
     private fun validateTerms() {
         val acceptTerms = _registrationState.value.acceptTerms
         _termsError.value = if (!acceptTerms) {
-            "You must accept the terms and conditions"
+            "Debes aceptar los términos y condiciones"
         } else {
             null
         }
@@ -331,10 +331,10 @@ class RegisterViewModel @Inject constructor(
 
                     _uiState.value = RegistrationUiState.Success
                 } else {
-                    _uiState.value = RegistrationUiState.Error("Error creating user")
+                    _uiState.value = RegistrationUiState.Error("Error al crear el usuario")
                 }
             } catch (e: Exception) {
-                _uiState.value = RegistrationUiState.Error(e.message ?: "Unknown registration error")
+                _uiState.value = RegistrationUiState.Error(e.message ?: "Error desconocido durante el registro")
             }
         }
     }

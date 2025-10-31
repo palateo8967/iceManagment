@@ -38,6 +38,8 @@ import kotlinx.coroutines.flow.collectLatest
 import java.text.NumberFormat
 import java.util.Locale
 import com.icerojects.icemanagment.ui.navigation.AppScreens
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Screen to display the order summary
@@ -130,7 +132,7 @@ fun OrderSummaryScreen(
                 modifier = Modifier.fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    containerColor = White
                 )
             ) {
                 Column(
@@ -160,7 +162,7 @@ fun OrderSummaryScreen(
                         Text(
                             text = currencyFormat.format(currentOrderState.totalAmount),
                             style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = PrimaryBlue,
                             fontWeight = FontWeight.Bold
                         )
                     }

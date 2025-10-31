@@ -16,11 +16,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.icerojects.icemanagment.domain.model.order.OrderItem
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -40,7 +43,7 @@ fun OrderSummaryItem(
             .padding(vertical = 4.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = White
         )
     ) {
         Row(
@@ -71,7 +74,7 @@ fun OrderSummaryItem(
             Text(
                 text = currencyFormat.format(orderItem.totalPrice),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.primary
+                color = PrimaryBlue
             )
             
             Spacer(modifier = Modifier.width(8.dp))
@@ -83,7 +86,7 @@ fun OrderSummaryItem(
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Remove item",
-                    tint = MaterialTheme.colorScheme.error
+                    tint = Color.Black
                 )
             }
         }

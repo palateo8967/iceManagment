@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -34,6 +36,8 @@ import com.icerojects.icemanagment.ui.components.ProductCard
 import com.icerojects.icemanagment.ui.orders.viewmodel.OrdersViewModel
 import kotlinx.coroutines.flow.collectLatest
 import com.icerojects.icemanagment.ui.navigation.AppScreens
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Main screen for orders management
@@ -89,7 +93,8 @@ fun OrdersScreen(
             // Categories section
             Text(
                 text = "Seleccionar categoría",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = PrimaryBlue
             )
             
             Spacer(modifier = Modifier.height(8.dp))
@@ -147,7 +152,11 @@ fun OrdersScreen(
                 
                 Button(
                     onClick = { viewModel.onEvent(OrdersViewModel.OrdersEvent.ConfirmOrder) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = PrimaryBlue,
+                        contentColor = White
+                    )
                 ) {
                     Text(text = "Confirmar pedido")
                 }

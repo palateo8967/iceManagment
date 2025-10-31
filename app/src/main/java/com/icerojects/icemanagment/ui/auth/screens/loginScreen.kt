@@ -19,6 +19,10 @@ import com.icerojects.icemanagment.ui.auth.viewmodel.AuthViewModel
 import com.icerojects.icemanagment.ui.components.AppLogo
 import com.icerojects.icemanagment.ui.components.IconTextField
 import com.icerojects.icemanagment.ui.navigation.AppScreens
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.ButtonDefaults
 
 @Composable
 fun LoginScreen(
@@ -46,7 +50,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AppLogo()
+        AppLogo(showText = false)
         Spacer(modifier = Modifier.height(16.dp))
 
         Text("¡Bienvenido de Vuelta!", style = MaterialTheme.typography.headlineMedium)
@@ -84,7 +88,7 @@ fun LoginScreen(
             horizontalArrangement = Arrangement.End
         ) {
             TextButton(onClick = { /* de momento no hace nada */ }) {
-                Text("¿Olvidaste tu contraseña?")
+                Text("¿Olvidaste tu contraseña?", color = PrimaryBlue)
             }
         }
 
@@ -95,7 +99,11 @@ fun LoginScreen(
         } else {
             Button(
                 onClick = { authViewModel.signIn() },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PrimaryBlue,
+                    contentColor = White
+                )
             ) {
                 Text("Iniciar Sesión")
             }
@@ -105,18 +113,21 @@ fun LoginScreen(
 
         Row(
             horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("¿No tienes cuenta?")
-            Spacer(modifier = Modifier.width(4.dp))
-            TextButton(
-                onClick = {
-                    authViewModel.resetFormAndUiState()
-                    navController.navigate(AppScreens.NewAccountScreen.route)
-                }
-            ) {
-                Text("Regístrate aquí")
-            }
+            Text("¿No tienes cuenta?", modifier = Modifier.alignByBaseline())
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Regístrate aquí",
+                color = PrimaryBlue,
+                modifier = Modifier
+                    .alignByBaseline()
+                    .clickable {
+                        authViewModel.resetFormAndUiState()
+                        navController.navigate(AppScreens.NewAccountScreen.route)
+                    }
+            )
         }
 
         if (uiState is AuthUiState.Error) {

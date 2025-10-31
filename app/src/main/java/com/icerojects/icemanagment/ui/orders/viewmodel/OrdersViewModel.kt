@@ -438,13 +438,17 @@ class OrdersViewModel @Inject constructor(
             OrdersEvent.CompleteSale -> {
                 viewModelScope.launch {
                     if (_checkoutState.value.customerName.isBlank()) {
-                        _eventFlow.emit(UiEvent.ShowSnackbar("Please enter customer name"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar("Por favor ingresa el nombre del cliente"))
+                        return@launch
+                    }
+                    if (_checkoutState.value.paymentMethod == null) {
+                        _eventFlow.emit(UiEvent.ShowSnackbar("Selecciona un método de pago"))
                         return@launch
                     }
                     
                     if (_checkoutState.value.paymentMethod == PaymentMethod.CASH && 
                         _cashPaymentState.value.amountPaid < _currentOrderState.value.totalAmount) {
-                        _eventFlow.emit(UiEvent.ShowSnackbar("Amount paid must be at least equal to the total amount"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar("El monto pagado debe ser igual o mayor al total"))
                         return@launch
                     }
                     
@@ -460,7 +464,7 @@ class OrdersViewModel @Inject constructor(
                     // Get next sale number
                     val nextSaleNumberResult = getNextSaleNumberUseCase()
                     if (nextSaleNumberResult is Resource.Error) {
-                        _eventFlow.emit(UiEvent.ShowSnackbar(nextSaleNumberResult.message ?: "Error getting sale number"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar(nextSaleNumberResult.message ?: "Error al obtener el número de venta"))
                         return@launch
                     }
                     
@@ -478,21 +482,21 @@ class OrdersViewModel @Inject constructor(
                         items = _currentOrderState.value.orderItems,
                         totalAmount = _currentOrderState.value.totalAmount,
                         profit = profit,
-                        paymentMethod = _checkoutState.value.paymentMethod,
+                        paymentMethod = _checkoutState.value.paymentMethod!!,
                         date = _checkoutState.value.date
                     )
                     
                     // Save order
                     val orderResult = addOrderUseCase(order)
                     if (orderResult is Resource.Error) {
-                        _eventFlow.emit(UiEvent.ShowSnackbar(orderResult.message ?: "Error saving order"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar(orderResult.message ?: "Error al guardar el pedido"))
                         return@launch
                     }
                     
                     // Save sale
                     val saleResult = addSaleUseCase(sale)
                     if (saleResult is Resource.Error) {
-                        _eventFlow.emit(UiEvent.ShowSnackbar(saleResult.message ?: "Error saving sale"))
+                        _eventFlow.emit(UiEvent.ShowSnackbar(saleResult.message ?: "Error al guardar la venta"))
                         return@launch
                     }
                     
@@ -547,7 +551,7 @@ class OrdersViewModel @Inject constructor(
     data class CheckoutState(
         val customerName: String = "",
         val date: Date = Date(),
-        val paymentMethod: PaymentMethod = PaymentMethod.CASH
+        val paymentMethod: PaymentMethod? = null
     )
 
     data class CashPaymentState(

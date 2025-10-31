@@ -19,14 +19,16 @@ private val DarkColorScheme = darkColorScheme(
     primary = PrimaryBlue,
     secondary = SecondaryBlue,
     tertiary = SecondaryBlue,
-    background = BackgroundDark,
-    surface = SurfaceDark,
+    // Forzar fondos claros incluso en tema oscuro para eliminar fondos negros
+    background = White,
+    surface = White,
     error = ErrorColorDark,
     onPrimary = White,
     onSecondary = BackgroundDark,
     onTertiary = BackgroundDark,
-    onBackground = White,
-    onSurface = White,
+    // Mantener textos en color oscuro para contraste
+    onBackground = BackgroundDark,
+    onSurface = BackgroundDark,
     onError = White
 )
 

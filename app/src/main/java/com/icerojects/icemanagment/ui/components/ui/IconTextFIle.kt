@@ -11,6 +11,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 /**
  * Campo de texto con icono que utiliza el tema de la aplicación
@@ -42,7 +45,7 @@ fun IconTextField(
             Icon(
                 imageVector = icon, 
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = PrimaryBlue
             ) 
         },
         modifier = modifier.fillMaxWidth(),
@@ -51,14 +54,18 @@ fun IconTextField(
         keyboardOptions = keyboardOptions,
         singleLine = true,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.surface,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            disabledContainerColor = MaterialTheme.colorScheme.surface,
-            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-            unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            focusedContainerColor = White,
+            unfocusedContainerColor = White,
+            disabledContainerColor = White,
+            errorContainerColor = White,
+            // Mantener borde negro tanto en estado normal como en error
+            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Black,
+            errorIndicatorColor = Color.Black,
+            focusedLabelColor = PrimaryBlue,
             unfocusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            cursorColor = MaterialTheme.colorScheme.primary
+            errorLabelColor = MaterialTheme.colorScheme.error,
+            cursorColor = PrimaryBlue
         )
     )
 }

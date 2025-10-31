@@ -23,6 +23,10 @@ import com.icerojects.icemanagment.ui.components.StepIndicator
 import com.icerojects.icemanagment.ui.auth.viewmodel.RegisterViewModel
 import com.icerojects.icemanagment.ui.auth.viewmodel.RegistrationUiState
 import com.icerojects.icemanagment.ui.navigation.AppScreens
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.ButtonDefaults
 
 @Composable
 fun NewAccountScreen(
@@ -51,12 +55,12 @@ fun NewAccountScreen(
         Surface(
             modifier = Modifier.size(80.dp),
             shape = MaterialTheme.shapes.extraLarge,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+            color = PrimaryBlue.copy(alpha = 0.1f)
         ) {
             Icon(
                 imageVector = if (registrationState.currentStep == 1) Icons.Default.Person else Icons.Default.Lock,
                 contentDescription = "Registration icon",
-                tint = MaterialTheme.colorScheme.primary,
+                tint = PrimaryBlue,
                 modifier = Modifier.size(40.dp)
             )
         }
@@ -64,7 +68,7 @@ fun NewAccountScreen(
         Spacer(modifier = Modifier.height(16.dp))
         
         Text(
-            text = if (registrationState.currentStep == 1) "Personal Information" else "Ice Cream Shop Information",
+            text = if (registrationState.currentStep == 1) "Información Personal" else "Información de Heladería",
             style = MaterialTheme.typography.headlineSmall
         )
 
@@ -91,14 +95,15 @@ fun NewAccountScreen(
             if (registrationState.currentStep > 1) {
                 OutlinedButton(
                     onClick = { viewModel.goToPreviousStep() },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = PrimaryBlue)
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back"
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Back")
+                    Text("Atrás")
                 }
                 Spacer(modifier = Modifier.width(16.dp))
             }
@@ -115,14 +120,18 @@ fun NewAccountScreen(
                         }
                     }
                 },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PrimaryBlue,
+                    contentColor = White
+                )
             ) {
-                Text(if (registrationState.currentStep < registrationState.totalSteps) "Continue" else "Create My Account")
+                Text(if (registrationState.currentStep < registrationState.totalSteps) "Continuar" else "Crear mi cuenta")
                 if (registrationState.currentStep < registrationState.totalSteps) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "Continue"
+                        contentDescription = "Continuar"
                     )
                 }
             }
@@ -148,18 +157,23 @@ fun NewAccountScreen(
     
         Row(
             horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Already have an account?")
-            Spacer(modifier = Modifier.width(4.dp))
-            TextButton(onClick = {
-                viewModel.resetState()
-                navController.navigate(AppScreens.LoginScreen.route) {
-                    popUpTo(AppScreens.NewAccountScreen.route) { inclusive = true }
-                }
-            }) {
-                Text("Sign In")
-            }
+            Text("¿Ya tienes una cuenta?", modifier = Modifier.alignByBaseline())
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Inicia sesión",
+                color = PrimaryBlue,
+                modifier = Modifier
+                    .alignByBaseline()
+                    .clickable {
+                        viewModel.resetState()
+                        navController.navigate(AppScreens.LoginScreen.route) {
+                            popUpTo(AppScreens.NewAccountScreen.route) { inclusive = true }
+                        }
+                    }
+            )
         }
     }
 }

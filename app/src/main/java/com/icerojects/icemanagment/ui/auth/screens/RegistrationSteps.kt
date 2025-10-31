@@ -5,15 +5,19 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.icerojects.icemanagment.ui.components.IconTextField
 import com.icerojects.icemanagment.ui.auth.viewmodel.RegisterViewModel
+import com.icerojects.icemanagment.ui.theme.PrimaryBlue
+import com.icerojects.icemanagment.ui.theme.White
 
 @Composable
 fun PersonalInformationStep(viewModel: RegisterViewModel) {
@@ -334,24 +338,45 @@ fun IceCreamShopInformationStep(viewModel: RegisterViewModel) {
                 .menuAnchor()
                 .fillMaxWidth(),
             label = { Text("Select type") },
-            isError = viewModel.shopTypeError.value != null
+            isError = viewModel.shopTypeError.value != null,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = White,
+                unfocusedContainerColor = White,
+                disabledContainerColor = White,
+                errorContainerColor = White,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Black,
+                errorIndicatorColor = Color.Black,
+                focusedLabelColor = PrimaryBlue
+            )
 
         )
         
-        ExposedDropdownMenu(
-
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-
+        MaterialTheme(
+            colorScheme = MaterialTheme.colorScheme.copy(
+                surface = White,
+                background = White
+            ),
+            typography = MaterialTheme.typography,
+            shapes = MaterialTheme.shapes
         ) {
-            listOf("Artesanal", "Industrial", "Mixto").forEach { type ->
-                DropdownMenuItem(
-                    text = { Text(type) },
-                    onClick = { 
-                        viewModel.updateShopType(type)
-                        expanded = false
-                    }
-                )
+            ExposedDropdownMenu(
+
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+
+            ) {
+                listOf("Artesanal", "Industrial", "Mixto").forEach { type ->
+                    DropdownMenuItem(
+                        text = { Text(type, color = Color.Black) },
+                        onClick = { 
+                            viewModel.updateShopType(type)
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
     }
